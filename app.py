@@ -1,11 +1,14 @@
 from flask import Flask, url_for, redirect
 app= Flask(__name__)
+@app.errorhandler(404)
+def not_found(err):
+    return "нет такой страницы", 404
 
 @app.errorhandler(404)
 def not_found(err):
     return "нет такой страницы", 404
 @app.route("/")
-@app.route("/web")
+@app.route("/lab1/web")
 def start():
     return """<!doctype html>
         <html> 
@@ -18,7 +21,7 @@ def start():
             'Content-Type':'text/plain; charset=utf-8'
             }
 
-@app.route("/author")
+@app.route("/lab1/author")
 def author():
     name="Кубраков Глеб Евгеньевич"
     group= "ФБИ-22"
@@ -59,10 +62,30 @@ def counter():
 <html>
     <body>
         Сколько раз вы сюда заходили: ''' + str(count) + '''
+    <br>
+        <a href="/lab1/reset_counter">Сбросить счётчик</a>
     </body>
 </html>
 '''
-@app.route("/info")
+
+@app.route('/lab1/reset_counter')
+def reset_counter():
+    global count
+    count = 0
+    return '''
+<!doctype html>
+<html>
+    <body>
+        Счётчик сброшен.
+        <br>
+        <a href="/lab1/counter">Вернуться к счётчику</a>
+    </body>
+</html>
+'''
+
+if __name__ == '__main__':
+    app.run(debug=True)
+@app.route("/lab1/info")
 def info():
     return redirect("/author")
 
