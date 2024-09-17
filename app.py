@@ -8,6 +8,43 @@ def not_found(err):
 def not_found(err):
     return "нет такой страницы", 404
 @app.route("/")
+@app.route("/index")
+def index():
+    return """
+    <!doctype html>
+    <html>
+        <head>
+            <title>НГТУ, ФБ, Лабораторные работы</title>
+        </head>
+        <body>
+            <h1>НГТУ, ФБ, WEB-программирование, часть 2. Список лабораторных</h1>
+            <ul>
+                <li><a href="/lab1">Первая лабораторная</a></li>
+            </ul>
+            <footer>
+                <p>ФИО: Кубраков Глеб Евгеньевич</p>
+                <p>Группа: ФБИ-22</p>
+                <p>Курс: 3</p>
+                <p>Год: 2024</p>
+            </footer>
+        </body>
+    </html>
+    """
+@app.route("/lab1")
+def lab1():
+    return """
+    <!doctype html>
+    <html>
+        <head>
+            <title>Первая лабораторная</title>
+        </head>
+        <body>
+            <h1>Первая лабораторная работа</h1>
+            <p>Здесь будет содержание первой лабораторной работы.</p>
+            <a href="/">Вернуться на главную</a>
+        </body>
+    </html>
+    """
 @app.route("/lab1/web")
 def start():
     return """<!doctype html>
