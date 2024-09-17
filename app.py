@@ -1,12 +1,46 @@
-from flask import Flask, url_for, redirect
+from flask import Flask, url_for, redirect, render_template_string
 app= Flask(__name__)
 @app.errorhandler(404)
 def not_found(err):
-    return "нет такой страницы", 404
+    image_path = url_for('static', filename='oak.jpg')
+    css_path = url_for('static', filename='style.css')
+    
+    html = f"""
+    <!doctype html>
+    <html>
+        <head>
+            <title>Ошибка 404</title>
+            <link rel="stylesheet" href="{css_path}">
+        </head>
+        <body>
+            <h1>Ошибка 404</h1>
+            <p>К сожалению, запрашиваемая вами страница не найдена.</p>
+            <img src="{image_path}" alt="404 Image">
+            <p><a href="/">Вернуться на главную</a></p>
+        </body>
+    </html>
+    """
+    return render_template_string(html), 404
 
-@app.errorhandler(404)
-def not_found(err):
-    return "нет такой страницы", 404
+@app.errorhandler(500)
+def internal_server_error(err):
+    css_path = url_for('static', filename='style.css')
+    
+    html = f"""
+    <!doctype html>
+    <html>
+        <head>
+            <title>Ошибка 500</title>
+            <link rel="stylesheet" href="{css_path}">
+        </head>
+        <body>
+            <h1>Ошибка 500</h1>
+            <p>К сожалению, на сервере произошла ошибка. Пожалуйста, попробуйте позже.</p>
+            <p><a href="/">Вернуться на главную</a></p>
+        </body>
+    </html>
+    """
+    return render_template_string(html), 500
 @app.route("/")
 @app.route("/index")
 def index():
@@ -20,6 +54,12 @@ def index():
             <h1>НГТУ, ФБ, WEB-программирование, часть 2. Список лабораторных</h1>
             <ul>
                 <li><a href="/lab1">Первая лабораторная</a></li>
+                <li><a href="/error/400">Ошибка 400</a></li>
+                <li><a href="/error/401">Ошибка 401</a></li>
+                <li><a href="/error/402">Ошибка 402</a></li>
+                <li><a href="/error/403">Ошибка 403</a></li>
+                <li><a href="/error/405">Ошибка 405</a></li>
+                <li><a href="/error/418">Ошибка 418</a></li>
             </ul>
             <footer>
                 <p>ФИО: Кубраков Глеб Евгеньевич</p>
