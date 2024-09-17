@@ -1,8 +1,10 @@
 from flask import Flask, url_for, redirect, render_template_string
-app= Flask(__name__)
+
+app = Flask(__name__)
+
 @app.errorhandler(404)
 def not_found(err):
-    image_path = url_for('static', filename='oak.jpg')
+    image_path = url_for('static', filename='404.jpg')
     css_path = url_for('static', filename='style.css')
     
     html = f"""
@@ -41,6 +43,7 @@ def internal_server_error(err):
     </html>
     """
     return render_template_string(html), 500
+
 @app.route("/")
 @app.route("/index")
 def index():
@@ -60,19 +63,45 @@ def index():
                 <li><a href="/error/403">Ошибка 403</a></li>
                 <li><a href="/error/405">Ошибка 405</a></li>
                 <li><a href="/error/418">Ошибка 418</a></li>
+                <li><a href="/trigger_error">Вызвать ошибку на сервере</a></li>
+                <li><a href="/about">О Flask</a></li>
             </ul>
             <footer>
                 <p>ФИО: Кубраков Глеб Евгеньевич</p>
                 <p>Группа: ФБИ-22</p>
-                <p>Курс: 3</p>
-                <p>Год: 2024</p>
+                <p>Курс: 2</p>
+                <p>Год: 2023</p>
             </footer>
         </body>
     </html>
     """
+
 @app.route("/lab1")
 def lab1():
-    return """
+    routes = [
+        ("/", "Главная"),
+        ("/index", "Главная (index)"),
+        ("/lab1", "Первая лабораторная"),
+        ("/error/400", "Ошибка 400"),
+        ("/error/401", "Ошибка 401"),
+        ("/error/402", "Ошибка 402"),
+        ("/error/403", "Ошибка 403"),
+        ("/error/405", "Ошибка 405"),
+        ("/error/418", "Ошибка 418"),
+        ("/trigger_error", "Вызвать ошибку на сервере"),
+        ("/about", "О Flask"),
+        ("/lab1/web", "web-server"),
+        ("/lab1/author", "Author"),
+        ("/lab1/oak", "OAK"),
+        ("/lab1/counter", "счетчик"),
+        ("/lab1/reset_counter", "Сбросить счётчик"),
+        ("/lab1/info", "Информация"),
+        ("/lab1/created", "Создано успешно")
+    ]
+    
+    route_links = "\n".join([f'<li><a href="{route}">{name}</a></li>' for route, name in routes])
+    
+    return f"""
     <!doctype html>
     <html>
         <head>
@@ -82,16 +111,21 @@ def lab1():
             <h1>Лабораторная 1</h1>
             <p>Flask — фреймворк для создания веб-приложений на языке программирования Python, использующий набор инструментов Werkzeug, а также шаблонизатор Jinja2. Относится к категории так называемых микрофреймворков — минималистичных каркасов веб-приложений, сознательно предоставляющих лишь самые базовые возможности.</p>
             <a href="/">Вернуться на главную</a>
+            <h2>Список роутов</h2>
+            <ul>
+                {route_links}
+            </ul>
         </body>
     </html>
     """
+
 @app.route("/lab1/web")
 def start():
     return """<!doctype html>
         <html> 
             <body>
                 <h1>web-сервер на flask</h1>
-                <a href="/author">author</a>
+                <a href="/lab1/author">author</a>
             </body> 
         </html>""", 200, {
             "X-Server": "sample",
@@ -109,7 +143,7 @@ def author():
                 <p>Студент: """ + name + """</p>
                 <p>Группа: """ + group + """</p>
                 <p>Факультет: """ + faculty + """</p>
-                <a href="/web">web</a>
+                <a href="/lab1/web">web</a>
             </body> 
         </html>"""
 
@@ -129,6 +163,7 @@ def oak():
         </body> 
     </html>
     '''
+
 count = 0
 @app.route('/lab1/counter')
 def counter():
@@ -160,11 +195,9 @@ def reset_counter():
 </html>
 '''
 
-if __name__ == '__main__':
-    app.run(debug=True)
 @app.route("/lab1/info")
 def info():
-    return redirect("/author")
+    return redirect("/lab1/author")
 
 @app.route("/lab1/created")
 def created():
@@ -177,3 +210,63 @@ def created():
     </body>
 </html>
 ''', 201
+
+@app.route("/error/400")
+def error_400():
+    return "Bad Request", 400
+
+@app.route("/error/401")
+def error_401():
+    return "Unauthorized", 401
+
+@app.route("/error/402")
+def error_402():
+    return "Payment Required", 402
+
+@app.route("/error/403")
+def error_403():
+    return "Forbidden", 403
+
+@app.route("/error/405")
+def error_405():
+    return "Method Not Allowed", 405
+
+@app.route("/error/418")
+def error_418():
+    return "I'm a teapot", 418
+
+@app.route("/trigger_error")
+def trigger_error():
+    # Пример ошибки: деление на ноль
+    return 1 / 0
+
+@app.route("/about")
+def about():
+    image_path = url_for('static', filename='flask.png')
+    css_path = url_for('static', filename='style.css')
+    
+    html = f"""
+    <!doctype html>
+    <html>
+        <head>
+            <title>О Flask</title>
+            <link rel="stylesheet" href="{css_path}">
+        </head>
+        <body>
+            <h1>О Flask</h1>
+            <p>Flask — это микрофреймворк для создания веб-приложений на языке программирования Python. Он основан на Werkzeug, WSGI-утилите, и Jinja2, шаблонизаторе. Flask предоставляет минималистичный набор инструментов для создания веб-приложений, позволяя разработчикам гибко настраивать и расширять функциональность по мере необходимости.</p>
+            <p>Одной из ключевых особенностей Flask является его простота и легкость в использовании. Он не навязывает разработчику определенную архитектуру или базу данных, что делает его идеальным выбором для небольших проектов и прототипирования. В то же время, Flask легко масштабируется для более сложных приложений благодаря поддержке расширений и плагинов.</p>
+            <p>Flask широко используется в сообществе Python для создания различных веб-приложений, от простых блогов до сложных веб-сервисов. Его популярность обусловлена не только простотой и гибкостью, но и активной поддержкой со стороны сообщества разработчиков.</p>
+            <img src="{image_path}" alt="Flask Logo">
+            <p><a href="/">Вернуться на главную</a></p>
+        </body>
+    </html>
+    """
+    return render_template_string(html), 200, {
+        'Content-Language': 'ru',
+        'X-Custom-Header-1': 'Custom Value 1',
+        'X-Custom-Header-2': 'Custom Value 2'
+    }
+
+if __name__ == '__main__':
+    app.run(debug=False, host='0.0.0.0', port=5000)  # Запуск без флага --debug и на всех интерфейсах
