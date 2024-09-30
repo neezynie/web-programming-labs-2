@@ -1,4 +1,4 @@
-from flask import Flask, url_for, redirect, render_template_string
+from flask import Flask, url_for, redirect, render_template_string, request
 
 app = Flask(__name__)
 
@@ -127,7 +127,7 @@ def start():
                 <h1>web-сервер на flask</h1>
                 <a href="/lab1/author">author</a>
             </body> 
-        </html>""", 200, {
+        </html>""" , 200, {
             "X-Server": "sample",
             'Content-Type':'text/plain; charset=utf-8'
             }
@@ -199,18 +199,93 @@ def reset_counter():
 def info():
     return redirect("/lab1/author")
 
-@app.route("/lab1/created")
+@app.route("/lab1/created", methods=['GET', 'POST'])
 def created():
-    return '''
-<!doctype html>
-<html>
-    <body>
-        <h1>Создано успешно</h1>
-        <div><i>что-то создано...</i></div>
-    </body>
-</html>
-''', 201
-
+    global resource_created
+    if request.method == 'POST':
+        if not resource_created:
+            resource_created = True
+            return '''
+            <!doctype html>
+            <html>
+                <head>
+                    <title>Успешно: ресурс создан</title>
+                </head>
+                <body>
+                    <h1>Успешно: ресурс создан</h1>
+                    <a href="/lab1/resource">Вернуться к ресурсу</a>
+                </body>
+            </html>
+            ''', 201
+        else:
+            return '''
+            <!doctype html>
+            <html>
+                <head>
+                    <title>Отказано: ресурс уже создан</title>
+                </head>
+                <body>
+                    <h1>Отказано: ресурс уже создан</h1>
+                    <a href="/lab1/resource">Вернуться к ресурсу</a>
+                </body>
+            </html>
+            ''', 400
+    else:
+        return redirect(url_for('resource'))
+@app.route("/lab1/delete", methods=['GET', 'POST'])
+def delete():
+    global resource_created
+    if request.method == 'POST':
+        if resource_created:
+            resource_created = False
+            return '''
+            <!doctype html>
+            <html>
+                <head>
+                    <title>Успешно: ресурс удалён</title>
+                </head>
+                <body>
+                    <h1>Успешно: ресурс удалён</h1>
+                    <a href="/lab1/resource">Вернуться к ресурсу</a>
+                </body>
+            </html>
+            ''', 200
+        else:
+            return '''
+            <!doctype html>
+            <html>
+                <head>
+                    <title>Отказано: ресурс отсутствует</title>
+                </head>
+                <body>
+                    <h1>Отказано: ресурс отсутствует</h1>
+                    <a href="/lab1/resource">Вернуться к ресурсу</a>
+                </body>
+            </html>
+            ''', 400
+    else:
+        return redirect(url_for('resource'))
+@app.route("/lab1/resource")
+def resource():
+    global resource_created
+    status = "ресурс создан" if resource_created else "ресурс ещё не создан"
+    return f"""
+    <!doctype html>
+    <html>
+        <head>
+            <title>Статус ресурса</title>
+        </head>
+        <body>
+            <h1>Статус ресурса: {status}</h1>
+            <form action="{url_for('created')}" method="post">
+                <button type="submit">Создать ресурс</button>
+            </form>
+            <form action="{url_for('delete')}" method="post">
+                <button type="submit">Удалить ресурс</button>
+            </form>
+        </body>
+    </html>
+    """
 @app.route("/error/400")
 def error_400():
     return "Bad Request", 400
@@ -270,3 +345,11 @@ def about():
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=5000)  # Запуск без флага --debug и на всех интерфейсах
+
+@app.route('/lab2/a/')
+def a():
+    return 'со слэшем'
+
+@app.route('/lab2/a')
+def a2():
+    return 'без слэша'
