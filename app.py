@@ -358,9 +358,19 @@ flower_list = ['роза','тюльпан','незабудка','ромашка'
 @app.route('/lab2/flowers/<int:flower_id>')
 def flowers(flower_id):
     if flower_id >= len(flower_list):
-        return 'такого цветка нет ', 404
+        return 'такого цветка нет', 404
     else:
-        return "цветок:" + flower_list[flower_id]
+        flower_name = flower_list[flower_id]
+        return f'''
+<!doctype html>
+<html>
+    <body>
+    <h1>Информация о цветке</h1>
+    <p>Цветок: {flower_name}</p>
+    <p><a href="/lab2/flowers/">Показать все цветы</a></p>
+    </body>
+</html>
+'''
 @app.route('/lab2/add_flower/<name>')
 def add_flower(name):
     flower_list.append(name)
@@ -375,11 +385,56 @@ def add_flower(name):
     </body>
 </html>
 '''
+@app.route('/lab2/add_flower')
+def add_flower_error():
+    return 'вы не задали имя цветка', 400
+@app.route('/lab2/flowers/')
+def list_flowers():
+    return f'''
+<!doctype html>
+<html>
+    <body>
+    <h1>Список всех цветов</h1>
+    <p>Всего цветов: {len(flower_list)}</p>
+    <ul>
+        {"".join(f"<li>{f}</li>" for f in flower_list)}
+    </ul>
+    </body>
+</html>
+'''
+@app.route('/lab2/clear_flowers/')
+def clear_flowers():
+    global flower_list
+    flower_list = []
+    return f'''
+<!doctype html>
+<html>
+    <body>
+    <h1>Список цветов очищен</h1>
+    <p>Все цветы были удалены.</p>
+    <p><a href="/lab2/flowers/">Показать все цветы</a></p>
+    </body>
+</html>
+'''
 @app.route('/lab2/example')
 def example():
     name = "Кубраков Глеб"
     group = "ФБИ-22"
     kyrs = "3 курс"
     laba = "Лабораторная работа 2"
-    return render_template('example.html', name=name, group=group, kyrs=kyrs, laba=laba)
+    fruits=[
+        {"name":"яблоки","price":100},
+        {"name":"груши","price":120},
+        {"name":"апельсины","price":80},
+        {"name":"мандарины","price":95},
+        {"name":"манго","price":321}
+    ]
+    return render_template('example.html', name=name, group=group, kyrs=kyrs, laba=laba, fruits=fruits)
+@app.route('/lab2')
+def lab2():
+    return render_template('lab2.html')
 
+@app.route('/lab2/filters')
+def filters():
+    phrase = "О <b>сколько</b> <u>нам</u> <i>открытий</i> чудных..."
+    return render_template('filter.html', phrase = phrase)
