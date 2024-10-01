@@ -3,11 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Кубраков Глеб {{laba}}</title>
+    <title>{% if name %}
+                {{name}},
+            {% else %}
+                Ты кто такой????
+            {% endif %}
+     {{laba}}</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='main.css')}}">
 </head>
 <body>
     <header>
-        web-программирование, часть 2. {{laba}}
+        web-программирование, часть 2. {% if laba %}Лабораторная работа 2{% endif %}
     </header>
     <main>
         <p>11 * 28 = {{11 * 28}}</p>
@@ -16,7 +22,23 @@
         <p>45<sup>8</sup> = {45<sup>8</sup>}</p>
     </main>
     <footer>
-        &copy; {{name}}, {{group}}, {{kyrs}}, 2024
+        &copy; 
+        {% if name %}
+            {{name}}
+        {% else %}
+            Анонимус
+        {% endif %}
+        {% if group %}
+            {{group}}
+        {% else %}
+            с какой группы чувачок
+        {% endif %}
+        {% if kyrs %}
+            {{kyrs}}
+        {% else %}
+            C какого курса говоришь?
+        {% endif %}
+        2024
     </footer>
 </body>
 </html>
