@@ -438,3 +438,40 @@ def lab2():
 def filters():
     phrase = "О <b>сколько</b> <u>нам</u> <i>открытий</i> чудных..."
     return render_template('filter.html', phrase = phrase)
+@app.route('/lab2/calc/')
+def redirect_to_default():
+    return redirect(url_for('calculate', a=1, b=1))
+
+@app.route('/lab2/calc/<int:a>')
+def redirect_with_a(a):
+    return redirect(url_for('calculate', a=a, b=1))
+@app.route('/lab2/calc/<int:a>/<int:b>')
+def calculate(a, b):
+
+    sum_result = a + b
+    diff_result = a - b
+    prod_result = a * b
+    div_result = a / b 
+    pow_result = a ** b
+
+
+    return f"""
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Калькулятор</title>
+    </head>
+    <body>
+        <h1>Калькулятор</h1>
+        <p>Сумма: { sum_result }</p>
+        <p>Вычитание: { diff_result }</p>
+        <p>Умножение: { prod_result }</p>
+        <p>Деление: { div_result }</p>
+        <p>Возведение в степень: { pow_result }</p>
+    </body>
+    </html>
+    """
+
+
