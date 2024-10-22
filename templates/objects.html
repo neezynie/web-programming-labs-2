@@ -1,22 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Список объектов</title>
-    <style>
-        .object {
-            display: flex;
-            margin-bottom: 20px;
-        }
-        .object img {
-            width: 200px;
-            height: auto;
-            margin-right: 20px;
-        }
-    </style>
-</head>
-<body>
+{% extends "base.html" %}
+{% block laba %}
+    Лабораторная работа №2
+{% endblock %}
+
+{% block main %}
     <h1>Список объектов</h1>
     {% for obj in objects %}
     <div class="object">
@@ -27,5 +14,4 @@
         </div>
     </div>
     {% endfor %}
-</body>
-</html>
+{% endblock %}

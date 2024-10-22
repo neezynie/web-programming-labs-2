@@ -1,17 +1,18 @@
+<link rel="stylesheet" href="{{ url_for('static',filename='main.css')}}">
 {% extends "base.html" %}
-{# номер лабораторной работы: #}
 {% block laba %}Лабораторная работа 2{% endblock %}
-{# основной контент: #}
 {% block main %}
     <h1>Шаблоны</h1>
     <div>Тема лабораторной - шаблоны. Список сделанных страниц:</div>
     <ol>
-        <li>
-            <a href="/lab2/example">example</a>
-            <a href="/lab2/filters">filer</a>
-            <a href="/lab2/objects">objects</a>
-            <a href="/lab2/books">books</a>
-            <a href="/lab2/calc/">base</a>
-        </li>
+        <li><a href="/lab2/example">example</a>
+        <li><a href="/lab2/filters">filer</a>
+        <li>    <a href="/lab2/objects">objects</a>
+        <li>    <a href="/lab2/books">books</a>
+        <li>    <a href="/lab2/calc/">calc</a>
+        <li>    <a href="/lab2/flowers/">flowers</a><br>
+        <li>    <a href="/lab2/clear_flowers/">clear_flowers</a>
+        <li><a href="/lab2/add_all_flowers/">добавление всех цветов</a></li>
+        <li>    <a href="/index">вернуться в начало</a>
     </ol>
 {% endblock %}
