@@ -21,3 +21,10 @@ footer{
     left: 0;
     right: 0;
 }
+button{
+    width: 200px;
+    height: 50px;
+}
+.error{
+    color: red;
+}
