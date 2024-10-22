@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block laba %}Лабораторная работа 3{% endblock %}
+
+{% block main %}
+    <h1>Настройки</h1>
+    <form method="post">
+        <div>Цвет фона:</div>
+        <label>
+            <input type="color" name="color" value="{{ color or '#ffffff' }}">
+        </label>
+        <div>Размер шрифта:</div>
+        <label>
+            <input type="number" name="font_size" value="{{ font_size or '16' }}">
+        </label>
+        <div>Шрифт:</div>
+        <label>
+            <select name="font_family">
+                <option value="Arial" {{ 'selected' if font_family == 'Arial' }}>Arial</option>
+                <option value="Times New Roman" {{ 'selected' if font_family == 'Times New Roman' }}>Times New Roman</option>
+                <option value="Courier New" {{ 'selected' if font_family == 'Courier New' }}>Courier New</option>
+            </select>
+        </label>
+        <div>
+            <button type="submit">Применить</button>
+        </div>
+    </form>
+{% endblock %}
