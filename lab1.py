@@ -2,7 +2,7 @@ from flask import Blueprint, url_for, redirect, render_template_string, request
 
 lab1 = Blueprint('lab1', __name__)
 
-@lab1.route("/")
+@lab1.route("/lab1")
 def lab1_view():
     routes = [
         ("/", "Главная"),

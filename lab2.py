@@ -1,4 +1,4 @@
-from flask import Blueprint, url_for, redirect, render_template_string, request, render_template
+from flask import Blueprint, url_for, redirect, render_template, request, make_response
 
 lab2 = Blueprint('lab2', __name__)
 
@@ -10,7 +10,8 @@ def a():
 def a2():
     return 'без слэша'
 
-flower_list = ['роза','тюльпан','незабудка','ромашка']
+flower_list = ['роза', 'тюльпан', 'незабудка', 'ромашка']
+
 @lab2.route('/lab2/flowers/<int:flower_id>')
 def flowers(flower_id):
     if flower_id >= len(flower_list):
@@ -27,6 +28,7 @@ def flowers(flower_id):
     </body>
 </html>
 '''
+
 @lab2.route('/lab2/add_flower/<name>')
 def add_flower(name):
     global flower_list
@@ -42,9 +44,11 @@ def add_flower(name):
     </body>
 </html>
 '''
+
 @lab2.route('/lab2/add_flower')
 def add_flower_error():
     return 'вы не задали имя цветка', 400
+
 @lab2.route('/lab2/flowers/')
 def list_flowers():
     return f'''
@@ -59,6 +63,7 @@ def list_flowers():
     </body>
 </html>
 '''
+
 @lab2.route('/lab2/clear_flowers/')
 def clear_flowers():
     global flower_list
@@ -73,10 +78,11 @@ def clear_flowers():
     </body>
 </html>
 '''
+
 @lab2.route('/lab2/add_all_flowers/')
 def add_all_flowers():
     global flower_list
-    flower_list = ['роза','тюльпан','незабудка','ромашка']
+    flower_list = ['роза', 'тюльпан', 'незабудка', 'ромашка']
     return f'''
 <!doctype html>
 <html>
@@ -88,44 +94,45 @@ def add_all_flowers():
     </body>
 </html>
 '''
+
 @lab2.route('/lab2/example')
 def example():
     name = "Кубраков Глеб"
     group = "ФБИ-22"
     kyrs = "3 курс"
     laba = "Лабораторная работа 2"
-    fruits=[
-        {"name":"яблоки","price":100},
-        {"name":"груши","price":120},
-        {"name":"апельсины","price":80},
-        {"name":"мандарины","price":95},
-        {"name":"манго","price":321}
+    fruits = [
+        {"name": "яблоки", "price": 100},
+        {"name": "груши", "price": 120},
+        {"name": "апельсины", "price": 80},
+        {"name": "мандарины", "price": 95},
+        {"name": "манго", "price": 321}
     ]
-    return render_template('example.html', name=name, group=group, kyrs=kyrs, laba=laba, fruits=fruits)
+    return render_template('lab2/example.html', name=name, group=group, kyrs=kyrs, laba=laba, fruits=fruits)
 
 @lab2.route('/lab2')
-def lab2_view():
-    return render_template('lab2.html')
+def lab2_index():
+    return render_template('lab2/lab2.html')
 
 @lab2.route('/lab2/filters')
 def filters():
     phrase = "О <b>сколько</b> <u>нам</u> <i>открытий</i> чудных..."
-    return render_template('filter.html', phrase = phrase)
+    return render_template('lab2/filter.html', phrase=phrase)
 
 @lab2.route('/lab2/calc/')
 def redirect_to_default():
-    return redirect(url_for('calculate', a=1, b=1))
+    return redirect(url_for('lab2.calculate', a=1, b=1))
 
 @lab2.route('/lab2/calc/<int:a>')
 def redirect_with_a(a):
-    return redirect(url_for('calculate', a=a, b=1))
+    return redirect(url_for('lab2.calculate', a=a, b=1))
 
 @lab2.route('/lab2/calc/<int:a>/<int:b>')
 def calculate(a, b):
     sum_result = a + b
     diff_result = a - b
     prod_result = a * b
-    div_result = a / b 
+    div_result = a / b
     pow_result = a ** b
 
     return f"""
@@ -138,11 +145,11 @@ def calculate(a, b):
     </head>
     <body>
         <h1>Калькулятор</h1>
-        <p>Сумма: { sum_result }</p>
-        <p>Вычитание: { diff_result }</p>
-        <p>Умножение: { prod_result }</p>
-        <p>Деление: { div_result }</p>
-        <p>Возведение в степень: { pow_result }</p>
+        <p>Сумма: {sum_result}</p>
+        <p>Вычитание: {diff_result}</p>
+        <p>Умножение: {prod_result}</p>
+        <p>Деление: {div_result}</p>
+        <p>Возведение в степень: {pow_result}</p>
     </body>
     </html>
     """
@@ -162,7 +169,7 @@ books = [
 
 @lab2.route('/lab2/books')
 def show_books():
-    return render_template('books.html', books=books)
+    return render_template('lab2/books.html', books=books)
 
 objects = [
     {
@@ -194,4 +201,4 @@ objects = [
 
 @lab2.route('/lab2/objects')
 def show_objects():
-    return render_template('objects.html', objects=objects)
+    return render_template('lab2/objects.html', objects=objects)

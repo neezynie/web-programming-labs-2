@@ -1,12 +1,18 @@
-<link rel="stylesheet" href="{{ url_for('static',filename='main.css')}}">
 {% extends "base.html" %}
+
 {% block laba %}Лабораторная работа 3{% endblock %}
+
 {% block main %}
-    <h1>Формы, cockie</h1>
-    <div>Привет,<span style="color: {{name_color}}">{{name}}!</span></div>
+    <h1>Формы, cookie</h1>
+    <div>Привет, <span style="color: {{ name_color }}">{{ name }}</span>!</div>
     <div>Список сделанных страниц</div>
     <ol>
-        <li><a href="/lab3/cookie">Куки</a>
-        <li><a href="/lab3/del_cookie">Почистить куки</a>  
+        <li><a href="/lab3/cookie">Куки</a></li>
+        <li><a href="/lab3/del_cookie">Почистить куки</a></li>
+        <li><a href="/lab3/form1">Форма</a></li>
+        <li><a href="/lab3/order">Ордер</a></li>
+        <li><a href="/lab3/settings">Настройки</a></li>
+        <li><a href="/lab3/ticket">Билет</a></li>
+        <li><a href="/lab3/clear_cookies">Очистка куки</a></li>
     </ol>
 {% endblock %}
