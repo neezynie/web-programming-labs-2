@@ -32,3 +32,8 @@ button{
     font-size: 1.2em;
     margin-bottom: 10px;
 }
+.snowflake {
+    color: blue;
+    font-size: 24px;
+    margin-right: 5px;
+}
