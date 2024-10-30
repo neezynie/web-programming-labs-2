@@ -95,3 +95,14 @@ def tree():
     disable_cut = tree_count <= 0
     disable_plant = tree_count >= 10
     return render_template('lab4/tree.html', tree_count=tree_count, disable_cut=disable_cut, disable_plant=disable_plant)
+
+@lab4.route('/lab4/login' , methods = ['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        return render_template('lab4/login.html', authorized = False)
+    login = request.form.get('login')
+    password = request.form.get('password')
+    if login == 'alex' and password == '123':
+        return render_template('/lab4/login.html', login=login, authorized = True)
+    error = 'Неверные логин и/или пароль'
+    return render_template('lab4/login.html', error=error, authorized = False)
