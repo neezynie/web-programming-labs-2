@@ -1,0 +1,10 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='lab1/main.css') }}">
+<form action="{{ url_for('lab4.sub') }}" method="post">
+    <label for="x1">Первое число:</label>
+    <input type="number" id="x1" name="x1">
+    <br>
+    <label for="x2">Второе число:</label>
+    <input type="number" id="x2" name="x2">
+    <br>
+    <button type="submit">Вычесть</button>
+</form>

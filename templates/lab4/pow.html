@@ -1,0 +1,15 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='lab1/main.css') }}">
+{% extends "base.html" %}
+
+{% block laba %}Возведение в степень{% endblock %}
+
+{% block main %}
+    {% if error %}
+        <p>{{ error }}</p>
+    {% else %}
+        <h1>Возведение в степень</h1>
+        <p>{{ x1 }} ^ {{ x2 }} = {{ result }}</p>
+    {% endif %}
+
+    <a href="/lab4/">Вернуться назад</a>
+{% endblock %}

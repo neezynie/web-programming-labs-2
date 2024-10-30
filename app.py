@@ -59,7 +59,7 @@ def index():
     <html>
         <head>
             <title>НГТУ, ФБ, Лабораторные работы</title>
-            <link rel="stylesheet" href="{{ url_for('static',filename='main.css')}}">
+            <link rel="stylesheet" href="{{ url_for('static', filename='lab1/main.css') }}">
         </head>
         <body>
             <h1>НГТУ, ФБ, WEB-программирование, часть 2. Список лабораторных</h1>
