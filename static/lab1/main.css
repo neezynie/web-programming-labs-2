@@ -25,6 +25,10 @@ button{
     width: 200px;
     height: 50px;
 }
-.error{
+/* Стили для ошибок */
+.error {
     color: red;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 10px;
 }
