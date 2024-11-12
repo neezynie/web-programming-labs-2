@@ -1,0 +1,25 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='lab1/main.css') }}">
+{% extends "base.html" %}
+
+{% block laba %}Лабораторная работа 5{% endblock %}
+
+{% block main %}
+<div class="menu">
+    <h1>Создать статью</h1>
+    <form method="post">
+        <div>
+            <label for="title">Заголовок:</label>
+            <input type="text" id="title" name="title">
+        </div>
+        <div>
+            <label for="content">Содержание:</label>
+            <textarea id="content" name="content"></textarea>
+        </div>
+        <div>
+            <button type="submit">Создать</button>
+            <a href="/lab5/"><button type="reset">Отмена</button></a>
+        </div>
+    </form>
+    <a href="/lab5/">Вернуться на главную</a>
+</div>
+{% endblock %}

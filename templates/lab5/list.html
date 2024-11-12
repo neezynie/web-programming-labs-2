@@ -1,0 +1,14 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='lab1/main.css') }}">
+{% extends "base.html" %}
+
+{% block laba %}Лабораторная работа 5{% endblock %}
+
+{% block main %}
+<div class="menu">
+    <h1>Список статей</h1>
+    <ul>
+        <!-- Здесь будет список статей -->
+    </ul>
+    <a href="/lab5/">Вернуться на главную</a>
+</div>
+{% endblock %}

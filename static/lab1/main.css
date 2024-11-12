@@ -1,44 +1,79 @@
-body{
+/* main.css */
+body {
+    font-family: Arial, sans-serif;
     margin: 0;
-}
-main{
-    margin-bottom: 40px;
-    padding: 10px;
+    padding: 0;
+    background-color: #f4f4f4;
 }
 
-header{
-    margin-bottom: 30px;
+.menu {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
     padding: 20px;
-    background: lightblue;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-footer{
+
+.menu h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.menu ul {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.menu ul li {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.menu ul li a {
+    color: #007bff;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.menu ul li a:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.menu p {
+    color: #666;
+    font-size: 14px;
+}
+
+form {
     margin-top: 20px;
-    padding: 10px;
-    background: lightblue;
-    text-align: right;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
 }
-button{
-    width: 200px;
-    height: 50px;
+
+form div {
+    margin: 10px 0;
 }
-/* Стили для ошибок */
-.error {
-    color: red;
-    font-weight: bold;
-    font-size: 1.2em;
-    margin-bottom: 10px;
+
+label {
+    display: block;
+    margin-bottom: 5px;
 }
-.snowflake {
-    color: blue;
-    font-size: 24px;
-    margin-right: 5px;
+
+
+button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
 }
-body {
-    background-color:  color or '#ffffff' ;
-    font-size:  font_size or '16' px;
-    font-family:  font_family or 'Arial' ;
+
+button:hover {
+    background-color: #0056b3;
 }
