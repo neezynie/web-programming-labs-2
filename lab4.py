@@ -141,6 +141,79 @@ def logout():
     session.pop('login', None)
     return redirect('/lab4/login')
 
+@lab4.route('/lab4/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'GET':
+        return render_template('lab4/register.html')
+    
+    login = request.form.get('login')
+    password = request.form.get('password')
+    name = request.form.get('name')
+    gender = request.form.get('gender')
+    
+    if not login:
+        error = 'Не введён логин'
+        return render_template('lab4/register.html', error=error)
+    
+    if not password:
+        error = 'Не введён пароль'
+        return render_template('lab4/register.html', error=error)
+    
+    if not name:
+        error = 'Не введено имя'
+        return render_template('lab4/register.html', error=error)
+    
+    if not gender:
+        error = 'Не выбран пол'
+        return render_template('lab4/register.html', error=error)
+    
+    for user in users:
+        if login == user['login']:
+            error = 'Пользователь с таким логином уже существует'
+            return render_template('lab4/register.html', error=error)
+    
+    users.append({'login': login, 'password': password, 'name': name, 'gender': gender})
+    return redirect('/lab4/login')
+
+@lab4.route('/lab4/users', methods=['GET'])
+def users_list():
+    if 'login' not in session:
+        return redirect('/lab4/login')
+    
+    return render_template('lab4/users.html', users=users)
+
+@lab4.route('/lab4/delete_user', methods=['POST'])
+def delete_user():
+    if 'login' not in session:
+        return redirect('/lab4/login')
+    
+    login = session['login']
+    users[:] = [user for user in users if user['login'] != login]
+    session.pop('login', None)
+    return redirect('/lab4/login')
+
+@lab4.route('/lab4/edit_user', methods=['GET', 'POST'])
+def edit_user():
+    if 'login' not in session:
+        return redirect('/lab4/login')
+    
+    login = session['login']
+    user = next((user for user in users if user['login'] == login), None)
+    
+    if request.method == 'GET':
+        return render_template('lab4/edit_user.html', user=user)
+    
+    new_password = request.form.get('new_password')
+    new_name = request.form.get('new_name')
+    
+    if new_password:
+        user['password'] = new_password
+    
+    if new_name:
+        user['name'] = new_name
+    
+    return redirect('/lab4/users')
+
 @lab4.route('/lab4/fridge', methods=['GET', 'POST'])
 def fridge():
     if request.method == 'GET':
@@ -211,6 +284,6 @@ def grain_order():
         discount = 10
         total_cost *= 0.9
     
-    message = f'Заказ успешно сформирован. Вы заказали {grain_type}. Вес: {weight} т. Сумма к оплате: {total_cost:.2f} руб'
+    message = f'Заказ успешно сформирован. Вы заказали {grain_type}. Вес: {weight} т. Сумма к оплате: {total_cost} руб'
     
     return render_template('lab4/grain_order.html', message=message, discount=discount)

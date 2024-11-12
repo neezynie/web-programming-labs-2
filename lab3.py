@@ -2,23 +2,21 @@ from flask import Blueprint, url_for, redirect, render_template_string, request,
 
 lab3 = Blueprint('lab3', __name__)
 
-@lab3.route('/lab3/form1', methods=['GET', 'POST'], endpoint='form1')
+@lab3.route('/lab3/form1')
 def form1():
     errors = {}
-    if request.method == 'POST':
-        user = request.form.get('user')
-        age = request.form.get('age')
-        sex = request.form.get('sex')
-
+    user = request.form.get('user')
+    age = request.form.get('age')
+    sex = request.form.get('sex')
         # Проверка на пустое значение поля "user"
-        if not user:
+    if user == '':
             errors['user'] = 'Заполните поле!'
 
         # Проверка на пустое значение поля "age"
-        if not age:
+    if not age:
             errors['age'] = 'Заполните поле!'
 
-        if not errors:
+    if not errors:
             return render_template('lab3/form1.html', user=user, age=age, sex=sex)
 
     return render_template('lab3/form1.html', errors=errors)
@@ -46,63 +44,56 @@ def del_cookie():
     resp.delete_cookie('name_color')
     return resp
 
-@lab3.route('/lab3/order')
+@lab3.route('/lab3/order', methods=['GET'])
 def order():
     return render_template('lab3/order.html')
 
-@lab3.route('/lab3/pay', methods=['GET', 'POST'])
+@lab3.route('/lab3/pay', methods=['GET'])
 def pay():
-    if request.method == 'POST':
-        drink = request.form.get("drink")
-        milk = request.form.get("milk")
-        sugar = request.form.get("sugar")
-        price = 0
-
-        if drink == "cofee":
-            price = 120
-        elif drink == "black_tea":
-            price = 80
-        elif drink == "green_tea":
-            price = 70
-        
-        if milk:
+    price = 0
+    drink = request.args.get("drink")
+    if drink == "cofee":
+        price = 120
+    elif drink == "black_tea":
+        price = 80  
+    else:
+        price= 70
+    if request.args.get('milk') == 'on':
             price += 30
-        if sugar:
+    if request.args.get('sugar') == 'on':
             price += 10
 
-        return render_template('lab3/pay.html', price=price)
-    else:
-        return redirect(url_for('lab3.order'))
+    return render_template('lab3/pay.html', price=price)
 
-@lab3.route('/lab3/success')
+@lab3.route('/lab3/success', methods=['GET'])
 def success():
     price = request.args.get("price")
     return render_template('lab3/success.html', price=price)
 
-@lab3.route('/lab3/settings', methods=['GET', 'POST'])
+@lab3.route('/lab3/settings', methods=['GET'])
 def settings():
-    if request.method == 'POST':
-        color = request.form.get("color")
-        font_size = request.form.get("font_size")
-        font_family = request.form.get("font_family")
-        text_color = request.form.get("text_color")
-
+    print(f"Request method: {request.method}")  # Добавьте эту строку для отладки
+    color = request.args.get("color")
+    font_size = request.args.get("font_size")
+    font_family = request.args.get("font_family")
+    
+    if color or font_size or font_family:
         resp = make_response(redirect('/lab3/settings'))
+        
         if color:
             resp.set_cookie('color', color)
         if font_size:
             resp.set_cookie('font_size', font_size)
         if font_family:
             resp.set_cookie('font_family', font_family)
-        if text_color:
-            resp.set_cookie('text_color', text_color)
+        
         return resp
 
     color = request.cookies.get('color')
     font_size = request.cookies.get('font_size')
     font_family = request.cookies.get('font_family')
-    text_color = request.cookies.get('text_color')
-    return render_template('lab3/settings.html', color=color, font_size=font_size, font_family=font_family, text_color=text_color)
+    
+    return render_template('lab3/settings.html', color=color, font_size=font_size, font_family=font_family)
 
 @lab3.route('/lab3/clear_cookies', endpoint='clear_cookies')
 def clear_cookies():
@@ -113,18 +104,18 @@ def clear_cookies():
     resp.delete_cookie('text_color')
     return resp
 
-@lab3.route('/lab3/ticket', methods=['GET', 'POST'])
+@lab3.route('/lab3/ticket', methods=['GET'])
 def ticket():
-    if request.method == 'POST':
-        fio = request.form.get('fio')
-        bunk = request.form.get('bunk')
-        bedclothes = request.form.get('bedclothes')
-        baggage = request.form.get('baggage')
-        age = request.form.get('age')
-        departure = request.form.get('departure')
-        destination = request.form.get('destination')
-        date = request.form.get('date')
-        insurance = request.form.get('insurance')
+    if request.method == 'GET':
+        fio = request.args.get('fio')
+        bunk = request.args.get('bunk')
+        bedclothes = request.args.get('bedclothes')
+        baggage = request.args.get('baggage')
+        age = request.args.get('age')
+        departure = request.args.get('departure')
+        destination = request.args.get('destination')
+        date = request.args.get('date')
+        insurance = request.args.get('insurance')
 
         errors = {}
 

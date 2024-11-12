@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='lab1/main.css') }}">
 {% extends "base.html" %}
 
 {% block laba %}Лабораторная работа 3{% endblock %}
@@ -10,17 +11,17 @@
     <form action="/lab3/success" method="get">
         <div>Номер банковской карты:</div>
         <label>
-            <input type="text" name="card" pattern="\d{16}" required>
+            <input type="text" name="card" pattern="\d{16}">
         </label>
         <div>Имя держателя карты:</div>
         <label>
-            <input type="text" name="name" required>
+            <input type="text" name="name">
         </label>
         <div>Номер CVV:</div>
         <label>
-            <input type="text" name="cvv" size="3" pattern="\d{3}" required>
+            <input type="text" name="cvv" size="3" pattern="\d{3}">
         </label>
- 
+        <input type="hidden" name="price" value="{{ price }}">
         <div>
             <button type="submit">Оплатить</button>
             <a href="/lab3/order">Отказаться</a>

@@ -37,3 +37,8 @@ button{
     font-size: 24px;
     margin-right: 5px;
 }
+body {
+    background-color:  color or '#ffffff' ;
+    font-size:  font_size or '16' px;
+    font-family:  font_family or 'Arial' ;
+}

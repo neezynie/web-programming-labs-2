@@ -1,0 +1,23 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='lab1/main.css') }}">
+{% extends "base.html" %}
+
+{% block laba %}Лабораторная 4{% endblock %}
+
+{% block main %}
+    <h1>Редактирование данных</h1>
+    <form method="post">
+        <div>
+            <label for="new_password">Новый пароль:</label>
+            <input type="password" id="new_password" name="new_password">
+        </div>
+        <div>
+            <label for="new_name">Новое имя:</label>
+            <input type="text" id="new_name" name="new_name">
+        </div>
+        <div>
+            <button type="submit">Сохранить изменения</button>
+            <button type="reset">Отмена</button>
+        </div>
+    </form>
+    <a href="/lab4/users">Вернуться к списку пользователей</a>
+{% endblock %}

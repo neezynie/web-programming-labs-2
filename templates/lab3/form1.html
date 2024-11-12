@@ -10,10 +10,11 @@
     <div>ваш пол: {{ 'мужской' if sex == 'male' else 'женский' }}</div>
     <div>
         <a href="/lab3/form1">Заново</a>
+        <a href="/lab3/">Вернуться</a>
     </div>
     {% else %}
     <h1>Пользователь</h1>
-    <form method="post">
+    <form action="/lab3/form1" method="get">
         <label>Ваше имя:</label>
         <div>
             <input type="text" placeholder="как вас зовут?" name="user" value="{{ user or '' }}">
