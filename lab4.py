@@ -141,6 +141,7 @@ def logout():
     session.pop('login', None)
     return redirect('/lab4/login')
 
+
 @lab4.route('/lab4/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'GET':
@@ -175,12 +176,12 @@ def register():
     users.append({'login': login, 'password': password, 'name': name, 'gender': gender})
     return redirect('/lab4/login')
 
-@lab4.route('/lab4/users', methods=['GET'])
+@lab4.route('/lab4/users_list', methods=['GET'])
 def users_list():
     if 'login' not in session:
         return redirect('/lab4/login')
     
-    return render_template('lab4/users.html', users=users)
+    return render_template('lab4/users_list.html', users=users)
 
 @lab4.route('/lab4/delete_user', methods=['POST'])
 def delete_user():
