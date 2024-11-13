@@ -12,6 +12,10 @@
         <li><a href="/lab5/login">Войти</a></li>
         <li><a href="/lab5/register">Регистрация</a></li>
     </ul>
-    <p>Anonymous</p>
+    <p>{% if login %}
+            {{ login }}
+        {% else %}
+            Anonymous
+        {% endif %}</p>
 </div>
 {% endblock %}

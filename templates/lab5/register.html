@@ -6,6 +6,9 @@
 {% block main %}
 <div class="menu">
     <h1>Регистрация</h1>
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
     <form acrtion="/lab5/register" method="post">
         <div>
             <label>
