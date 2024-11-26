@@ -19,7 +19,7 @@ def db_connect():
             user='gleb_kubrakov_knowledge_base',
             password='123'
         )
-        cur = conn.cursor(cursor_factory=RealDictCursor)
+        cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     else:
         dir_path = path.dirname(path, realpath(__file__))
         db_path = path.join(dir_path, 'database.db')

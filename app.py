@@ -1,4 +1,5 @@
-from flask import Flask, url_for, redirect, render_template_string, request, render_template, os
+from flask import Flask, url_for, redirect, render_template_string, request, render_template
+from os import path
 from lab1 import lab1
 from lab2 import lab2
 from lab3 import lab3
