@@ -6,6 +6,7 @@ from lab2 import lab2
 from lab3 import lab3
 from lab4 import lab4
 from lab5 import lab5
+from lab6 import lab6
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'GLEB')
 app.config['DB_TYPE'] = os.getenv('DB_TYPE', 'postgres')
@@ -16,6 +17,7 @@ app.register_blueprint(lab2)
 app.register_blueprint(lab3)
 app.register_blueprint(lab4)
 app.register_blueprint(lab5)
+app.register_blueprint(lab6)
 @app.errorhandler(404)
 def not_found(err):
     image_path = url_for('static', filename='404.jpg')
@@ -57,6 +59,7 @@ def index():
                 <li><a href="/lab3/">3 лабораторная</a></li>
                 <li><a href="/lab4/">4 лабораторная</a></li>
                 <li><a href="/lab5/">5 лабораторная</a></li>
+                <li><a href="/lab6/">6 лабораторная</a></li>
             </ul>
             <footer>
                 <p>ФИО: Кубраков Глеб Евгеньевич</p>
