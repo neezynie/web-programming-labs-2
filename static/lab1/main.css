@@ -77,3 +77,100 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+.btn btn-edit{
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+/* Стили кнопок действий */
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.form-inline {
+    display: inline;
+}
+
+.link-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.link-container a {
+    color: #4CAF50;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 5px 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 3px;
+}
+
+.link-container a:hover {
+    background-color: #e2e6ea;
+    color: #4CAF50;
+    text-decoration: underline;
+}
+
+.link-container div {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #dcdcdc;
+    border-radius: 4px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, background-color 0.3s ease;
+}
+
+.link-container div:hover {
+    background-color: #f1f1f1;
+    transform: scale(1.02);
+}
+
+.link-container div a {
+    color: #4CAF50;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.link-container div a:hover {
+    text-decoration: underline;
+}
+
+
+.article-container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    word-wrap: break-word;
+}
+
+.article-title {
+    color: #555;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-top: 30px;
+}
+
+.article-text {
+    background-color: #f9f9f9;
+    border-left: 5px solid #ccc;
+    padding: 10px 20px;
+    margin: 10px 0;
+    font-style: italic;
+    color: #666;
+    word-wrap: break-word;
+}

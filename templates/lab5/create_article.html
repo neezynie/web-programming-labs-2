@@ -2,25 +2,38 @@
 <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
 {% extends "base.html" %}
 
-{% block laba %}Лабораторная работа 5{% endblock %}
 
 {% block main %}
-<div class="menu">
-    <h1>Создать статью</h1>
+    <h1>Создание статьи</h1>
+
     <form method="post">
         <div>
             <label>
                 Название статьи:
-                <input type="text" maxlength="50" name="title">
+                <input type="text" maxlength="50" name="title" required>
             </label>
         </div>
+        
         <div>
-            <textarea name="article_text"></textarea>
+            <label>
+                Текст статьи:
+                <textarea name="article_text" required></textarea>
+            </label>
         </div>
+
+        <div>
+            <label>
+                Общедоступная:
+                <input type="checkbox" name="is_public" value="1">
+            </label>
+        </div>
+
         <div>
             <button type="submit">Готово</button>
         </div>
     </form>
-    <a href="/lab5/">Вернуться на главную</a>
-</div>
+    <a href="/lab5/">Назад</a>
+    <div class="error">
+        {{ error }}
+    </div>
 {% endblock %}
