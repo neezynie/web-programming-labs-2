@@ -1,4 +1,4 @@
-from flask import Flask, url_for, redirect, render_template_string, request, render_template
+from flask import Flask, url_for, redirect, render_template_string, request, render_template, os
 from lab1 import lab1
 from lab2 import lab2
 from lab3 import lab3
@@ -6,6 +6,7 @@ from lab4 import lab4
 from lab5 import lab5
 app = Flask(__name__)
 app.secret_key = "секретно-секретный секрет"
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'секретно-секретный секрет')
 app.register_blueprint(lab1)
 app.register_blueprint(lab2)
 app.register_blueprint(lab3)
@@ -32,26 +33,6 @@ def not_found(err):
     </html>
     """
     return render_template_string(html), 404
-
-@app.errorhandler(500)
-def internal_server_error(err):
-    css_path = url_for('static', filename='style.css')
-    
-    html = f"""
-    <!doctype html>
-    <html>
-        <head>
-            <title>Ошибка 500</title>
-            <link rel="stylesheet" href="{css_path}">
-        </head>
-        <body>
-            <h1>Ошибка 500</h1>
-            <p>К сожалению, на сервере произошла ошибка. Пожалуйста, попробуйте позже.</p>
-            <p><a href="/">Вернуться на главную</a></p>
-        </body>
-    </html>
-    """
-    return render_template_string(html), 500
 
 @app.route("/")
 

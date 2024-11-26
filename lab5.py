@@ -1,7 +1,9 @@
-from flask import Blueprint, render_template, request, redirect, session
+from flask import Blueprint, render_template, request, redirect, session, current_app , realpath
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from werkzeug.security import check_password_hash, generate_password_hash
+import sqlite3
+from os import path
 
 lab5 = Blueprint('lab5', __name__)
 
@@ -10,13 +12,20 @@ def lab():
     return render_template('lab5/lab5.html', login=session.get('login'))
 
 def db_connect():
-    conn = psycopg2.connect(
-        host='127.0.0.1',
-        database='gleb_kubrakov_knowledge_base',
-        user='gleb_kubrakov_knowledge_base',
-        password='123'
-    )
-    cur = conn.cursor(cursor_factory=RealDictCursor)
+    if current_app.config['DB_TYPE'] == 'postgres':
+        conn = psycopg2.connect(
+            host='127.0.0.1',
+            database='gleb_kubrakov_knowledge_base',
+            user='gleb_kubrakov_knowledge_base',
+            password='123'
+        )
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+    else:
+        dir_path = path.dirname(path, realpath(__file__))
+        db_path = path.join(dir_path, 'database.db')
+        conn = sqlite3.connect(db_path)
+        conn.row_factory = sqlite3.Row
+        cur = conn.cursor()
     return conn, cur
 
 def db_close(conn, cur):
@@ -57,19 +66,26 @@ def register():
     
     login = request.form.get('login')
     password = request.form.get('password')
-    
+    conn, cur = db_connect()
     if not (login and password):
         return render_template('lab5/register.html', error='Заполните все поля')
     
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute("SELECT login FROM users WHERE login=%s;", (login,))
+    else:
+        cur.execute("SELECT login FROM users WHERE login=?;", (login,))
     password_hash = generate_password_hash(password)
     
-    conn, cur = db_connect()
-    cur.execute("SELECT login FROM users WHERE login=%s;", (login,))
+    
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute("INSERT INTO users (login, password) VALUES (%s, %s);", (login, password_hash))
+    else:
+        ("INSERT INTO users (login, password) VALUES (?, ?);", (login, password_hash))
+
     if cur.fetchone():
         db_close(conn, cur)
         return render_template('lab5/register.html', error='Такой пользователь уже существует')
     
-    cur.execute("INSERT INTO users (login, password) VALUES (%s, %s);", (login, password_hash))
     conn.commit()
     db_close(conn, cur)
     
@@ -80,11 +96,17 @@ def list():
     login = session.get('login')
     if not login:
         return redirect('/lab5/login')
-
-    conn, cur = db_connect()
-    cur.execute("SELECT id FROM users WHERE login=%s;", (login, ))
     login_id = cur.fetchone()['id']
-    cur.execute("SELECT * FROM articles WHERE user_id=%s;", (login_id, ))
+    conn, cur = db_connect()
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute("SELECT id FROM users WHERE login=%s;", (login, ))
+    else:
+        cur.execute("SELECT id FROM users WHERE login=?;", (login,))
+    
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute("SELECT * FROM articles WHERE user_id=%s;", (login_id, ))
+    else:
+        cur.execute("SELECT * FROM articles WHERE user_id=?;", (login_id, ))
     articles = cur.fetchall()
     db_close(conn, cur)
     return render_template('/lab5/articles.html', articles=articles)
@@ -101,10 +123,20 @@ def create():
     article_text = request.form.get('article_text')
     conn, cur = db_connect()
     conn.commit()
-    cur.execute("SELECT * FROM users WHERE login=%s;", (login, ))
     login_id = cur.fetchone()['id']
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute("SELECT login FROM users WHERE login=%s;", (login,))
+    else:
+        cur.execute("SELECT login FROM users WHERE login=?;", (login,))
+    
     cur.execute(f"INSERT INTO articles(user_id, title, article_text) \
                 VALUES (%s, %s, %s) ({login_id}, '{title}', '{article_text}')")
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute(f"INSERT INTO articles(user_id, title, article_text) \
+                VALUES (%s, %s, %s) ({login_id}, '{title}', '{article_text}')")
+    else:
+        cur.execute(f"INSERT INTO articles(user_id, title, article_text) \
+                VALUES (?, ?, ?) ({login_id}, '{title}', '{article_text}')")
     conn.commit()
     db_close(conn, cur)
     return redirect('/lab5')
