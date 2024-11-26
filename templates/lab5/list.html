@@ -7,7 +7,12 @@
 <div class="menu">
     <h1>Список статей</h1>
     <ul>
-        <!-- Здесь будет список статей -->
+        {% for article in articles %}
+            <li>
+                <h2>{{ article.title }}</h2>
+                <p>{{ article.article_text }}</p>
+            </li>
+        {% endfor %}
     </ul>
     <a href="/lab5/">Вернуться на главную</a>
 </div>

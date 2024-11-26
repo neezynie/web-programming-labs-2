@@ -8,11 +8,9 @@ def form1():
     user = request.form.get('user')
     age = request.form.get('age')
     sex = request.form.get('sex')
-        # Проверка на пустое значение поля "user"
     if user == '':
             errors['user'] = 'Заполните поле!'
 
-        # Проверка на пустое значение поля "age"
     if not age:
             errors['age'] = 'Заполните поле!'
 
@@ -23,24 +21,24 @@ def form1():
 
 @lab3.route('/lab3/', endpoint='lab3_index')
 def lab():
-    name = request.cookies.get('name') or 'аноним'  # По умолчанию "аноним", если имя не установлено
-    age = request.cookies.get('age') or 'неизвестный'  # По умолчанию "неизвестный", если возраст не установлен
-    name_color = request.cookies.get('name_color') or 'black'  # По умолчанию черный цвет, если цвет не установлен
+    name = request.cookies.get('name') or 'аноним'  
+    age = request.cookies.get('age') or 'неизвестный' 
+    name_color = request.cookies.get('name_color') or 'black'  
     return render_template('lab3/lab3.html', name=name, age=age, name_color=name_color)
 
 @lab3.route('/lab3/cookie', endpoint='set_cookie')
 def cookie():
     resp = make_response("Установка cookie", 200)
     resp.set_cookie('name', 'Alex', max_age=5)
-    resp.set_cookie('age', '30', max_age=5)  # Установка возраста
-    resp.set_cookie('name_color', 'blue', max_age=5)  # Установить цвет на синий на 5 секунд
+    resp.set_cookie('age', '30', max_age=5)  
+    resp.set_cookie('name_color', 'blue', max_age=5)  
     return resp
 
 @lab3.route('/lab3/del_cookie', endpoint='delete_cookie')
 def del_cookie():
     resp = make_response(redirect('/lab3/'))
     resp.delete_cookie('name')
-    resp.delete_cookie('age')  # Удаление возраста
+    resp.delete_cookie('age')  
     resp.delete_cookie('name_color')
     return resp
 
@@ -72,7 +70,7 @@ def success():
 
 @lab3.route('/lab3/settings', methods=['GET'])
 def settings():
-    print(f"Request method: {request.method}")  # Добавьте эту строку для отладки
+    print(f"Request method: {request.method}") 
     color = request.args.get("color")
     font_size = request.args.get("font_size")
     font_family = request.args.get("font_family")
