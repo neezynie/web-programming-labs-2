@@ -29,7 +29,7 @@
                 for(let i = 0; i < office_list.length; i++) {
                     const office = office_list[i];
                     const li = document.createElement('li');
-                    li.innerText = `${office.number}: ${office.tenant || 'Свободен'}`;
+                    li.innerText = `${office.number}: ${office.tenant || 'Свободен'}, Стоимость аренды: ${office.rent_cost} руб.`;  // Добавляем стоимость аренды
 
                     const bookingButton = document.createElement('button');
                     bookingButton.innerText = 'Забронировать';

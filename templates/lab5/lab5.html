@@ -14,7 +14,8 @@
         <li><a href="/lab5/create">Создать статью</a></li>
         <li><a href="/lab5/users">Спикок пользователей</a></li>
     </ul>
-    <p>{% if login %}
+    <p>
+        {% if login %}
             {{ login }}
         {% else %}
             Anonymous

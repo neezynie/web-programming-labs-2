@@ -57,7 +57,7 @@ def register():
 
     if cur.fetchone():
         db_close(conn, cur)
-        return render_template('lab5/register.html', error='Кто-то уже занял такое имя!')
+        return render_template('lab5/register.html', error='такой логин уже существует')
     
     password_hash = generate_password_hash(password)
 
