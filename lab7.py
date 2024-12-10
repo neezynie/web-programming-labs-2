@@ -35,6 +35,9 @@ films = [
     
 ]
 
+@lab7.route('/lab7/rest-api/films/', methods=['GET'])
+def get_all_films():
+    return jsonify(films)
 
 @lab7.route('/lab7/rest-api/films/<int:id>', methods=['GET'])
 def get_films(id):
