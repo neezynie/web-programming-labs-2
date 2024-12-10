@@ -51,9 +51,6 @@ function deleteFilm(id, title) {
 
     fetch(`/lab7/rest-api/films/${id}`, { method: 'DELETE' })
         .then(function (response) {
-            if (!response.ok) {
-                throw new Error('Ошибка при удалении фильма');
-            }
             return response;
         })
         .then(function () {
@@ -85,34 +82,59 @@ function addFilm(){
     showModal();
 }
 
-function sendFilm(){
+function sendFilm() {
     const id = document.getElementById('id').value;
     const film = {
         title: document.getElementById('title').value,
         title_ru: document.getElementById('title_ru').value,
         year: document.getElementById('year').value,
         description: document.getElementById('description').value,
-    }
+    };
     const url = `/lab7/rest-api/films/${id}`;
-    const method = id === '' ? 'POST': "PUT";
+    const method = id === '' ? 'POST' : 'PUT';
 
     fetch(url, {
         method: method,
-        headers:{'Content-Type': "application/json"},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(film)
     })
-    .then(function(resp){
-        if(resp.ok){
-            fillFilmList();
-            hideModal();
-            return {};
-        }
-        return resp.json();
-    })
-    .then(function(errors){
-        if(errors.description)
-            document.getElementById('description-error').innerText= errors.description
-    })
+        .then(function (resp) {
+            if (resp.ok) {
+                fillFilmList();
+                hideModal();
+                return {};
+            }
+            return resp.json();
+        })
+        .then(function (errors) {
+            clearErrors();
+            if (errors.title_ru) {
+                showError('title_ru', errors.title_ru);
+            }
+            if (errors.title) {
+                showError('title', errors.title);
+            }
+            if (errors.year) {
+                showError('year', errors.year);
+            }
+            if (errors.description) {
+                showError('description', errors.description);
+            }
+        })
+        .catch(function (error) {
+            console.error('Ошибка при отправке данных:', error);
+        });
+}
+
+function clearErrors() {
+    document.getElementById('title_ru-error').innerText = '';
+    document.getElementById('title-error').innerText = '';
+    document.getElementById('year-error').innerText = '';
+    document.getElementById('description-error').innerText = '';
+}
+
+function showError(field, message) {
+    document.getElementById(`${field}-error`).innerText = message;
 }
 
 function editFilm(id){
@@ -126,7 +148,7 @@ function editFilm(id){
         document.getElementById('title_ru').value = film.title_ru;
         document.getElementById('year').value = film.year;
         document.getElementById('description').value = film.description;
-        document.getElementById('description-error').innerText = ''; // Очистка сообщения об ошибке
+        document.getElementById('description-error').innerText = ''; 
         showModal();
     })
     .catch(function(error){
