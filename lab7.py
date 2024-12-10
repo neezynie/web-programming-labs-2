@@ -55,6 +55,9 @@ def put_film(id):
     if film['description'] == '':
         return {'description': 'Заполните описание'}, 400
     
+    if not film['title']:
+        film['title'] = film['title_ru']
+    
     films[id] = film
     return jsonify(films[id])
 
@@ -64,6 +67,9 @@ def add_film():
     
     if new_film['description'] == '':
         return {'description': 'Заполните описание'}, 400
+    
+    if not new_film['title']:
+        new_film['title'] = new_film['title_ru']
     
     films.append(new_film)
     
