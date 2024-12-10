@@ -52,12 +52,18 @@ def put_film(id):
     
     film = request.get_json()
     
+    if film['description'] == '':
+        return {'description': 'Заполните описание'}, 400
+    
     films[id] = film
     return jsonify(films[id])
 
 @lab7.route('/lab7/rest-api/films/', methods=['POST'])
 def add_film():
     new_film = request.get_json()
+    
+    if new_film['description'] == '':
+        return {'description': 'Заполните описание'}, 400
     
     films.append(new_film)
     

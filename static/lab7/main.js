@@ -65,7 +65,8 @@ function deleteFilm(id, title) {
 }
 
 function showModal(){
-    document.querySelector('div.modal').style.display = 'block'
+    document.querySelector('div.modal').style.display = 'block';
+    document.getElementById('description-error').innerText = '';
 }
 function hideModal(){
     document.querySelector('div.modal').style.display = 'none'
@@ -75,11 +76,12 @@ function cancel(){
     hideModal();
 }
 function addFilm(){
-    document.getElementById('id').value = ''
-    document.getElementById('title').value = ''
-    document.getElementById('title_ru').value = ''
-    document.getElementById('year').value = ''
-    document.getElementById('description').value = ''
+    document.getElementById('id').value = '';
+    document.getElementById('title').value = '';
+    document.getElementById('title_ru').value = '';
+    document.getElementById('year').value = '';
+    document.getElementById('description').value = '';
+    document.getElementById('description-error').innerText = ''; 
     showModal();
 }
 
@@ -99,9 +101,17 @@ function sendFilm(){
         headers:{'Content-Type': "application/json"},
         body: JSON.stringify(film)
     })
-    .then(function(){
-        fillFilmList();
-        hideModal();
+    .then(function(resp){
+        if(resp.ok){
+            fillFilmList();
+            hideModal();
+            return {};
+        }
+        return resp.json();
+    })
+    .then(function(errors){
+        if(errors.description)
+            document.getElementById('description-error').innerText= errors.description
     })
 }
 
@@ -116,6 +126,10 @@ function editFilm(id){
         document.getElementById('title_ru').value = film.title_ru;
         document.getElementById('year').value = film.year;
         document.getElementById('description').value = film.description;
+        document.getElementById('description-error').innerText = ''; // Очистка сообщения об ошибке
         showModal();
     })
+    .catch(function(error){
+        console.error('Ошибка при загрузке фильма для редактирования:', error);
+    });
 }
