@@ -1,0 +1,76 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='lab1/main.css') }}">
+<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+{% extends "base.html" %}
+
+{% block laba %}Лабораторная работа 8{% endblock %}
+
+{% block main %}
+    <h1>Статьи</h1>
+
+    <div class="filter-options">
+        <form method="get" action="/lab8/list">
+            <label for="filter">Фильтр:</label>
+            {% if session.get('login_id') %}
+                <select name="filter" id="filter" onchange="this.form.submit()">
+                    <option value="all" {% if filter_type == 'all' %}selected{% endif %}>Все</option>
+                    <option value="public" {% if filter_type == 'public' %}selected{% endif %}>Общедоступные</option>
+                    <option value="private" {% if filter_type == 'private' %}selected{% endif %}>Приватные</option>
+                </select>
+            {% endif %}
+        </form>
+    </div>
+
+    {% if articles %}
+        {% for article in articles %}
+            <div class="article">
+                <h2 class="article-title">{{ article['title'] }}</h2>
+                <blockquote class="article-text">{{ article['article_text'] }}</blockquote>
+                <div class="article-meta">
+                    {% if article['is_public'] %}
+                        <p>Общедоступная</p>
+                    {% else %}
+                        <p>Приватная</p>
+                    {% endif %}
+                    <p>Автор: {{ article['creator_login'] }}</p> 
+                    {% if article['is_favorite'] %}
+                        <p>Любимая статья</p>
+                    {% endif %}
+                </div>
+                <div class="article-actions">
+                    {% if session.get('login_id') %}
+                        <form action="/lab8/favorite/{{ article['id'] }}" method="post">
+                            <button type="submit" class="btn btn-favorite">
+                                {% if article['is_favorite'] %}
+                                    Убрать из избранного
+                                {% else %}
+                                    Добавить в избранное
+                                {% endif %}
+                            </button>
+                        </form>
+                    {% endif %}
+
+                    {% if session.get('login_id') %}
+                        {% if sqllite %}
+                            {% if article['login_id'] == session['login_id'] or  is_admin%}
+                                <a href="/lab8/edit/{{ article['id'] }}" class="btn btn-edit">Редактировать</a>
+                                <form action="/lab8/delete/{{ article['id'] }}" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-delete">Удалить</button>
+                                </form>
+                            {% endif %}
+                        {% else %}
+                            {% if (article['user_id'] == session['login_id']) or  is_admin %}
+                                <a href="/lab8/edit/{{ article['id'] }}" class="btn btn-edit">Редактировать</a>
+                                <form action="/lab8/delete/{{ article['id'] }}" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-delete">Удалить</button>
+                                </form>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Нет доступных статей.</p>
+    {% endif %}
+    <a href="/lab8/">Назад</a>
+{% endblock %}

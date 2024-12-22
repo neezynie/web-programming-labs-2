@@ -1,0 +1,20 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='lab1/main.css') }}">
+<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+{% extends "base.html" %}
+
+{% block laba %}Лабораторная работа 8{% endblock %}
+
+{% block main %}
+<div class="menu">
+    <h1>Список статей</h1>
+    <ul>
+        {% for article in articles %}
+            <li>
+                <h2>{{ article.title }}</h2>
+                <p>{{ article.article_text }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="/lab8/">Вернуться на главную</a>
+</div>
+{% endblock %}

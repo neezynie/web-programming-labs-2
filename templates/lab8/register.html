@@ -1,0 +1,30 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='lab1/main.css') }}">
+<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+{% extends "base.html" %}
+
+{% block laba %}Лабораторная работа 8{% endblock %}
+
+{% block main %}
+<div class="menu">
+    <h1>Регистрация</h1>
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
+    <form acrtion="/lab5/register" method="post">
+        <div>
+            <label>
+                Логин: <input type="text" name="login">
+            </label>
+        </div>
+        <div>
+            <label>
+                Пароль: <input type="password" name="password">
+            </label>
+        </div>
+        <div>
+            <button type="submit">Зарегистрироваться</button>
+        </div>
+    </form>
+    <a href="/lab8/">Вернуться на главную</a>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='lab1/main.css') }}">
+<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+{% extends "base.html" %}
+
+{% block main %}
+    <h1>Список пользователей</h1>
+    {% if users %}
+        <ul>
+            {% for user in users %}
+                <li>{{ user['login'] }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Нет пользователей.</p>
+    {% endif %}
+    <a href="/lab8/">Назад</a>
+{% endblock %}

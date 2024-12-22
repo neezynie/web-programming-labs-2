@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='lab1/main.css') }}">
+<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+{% extends "base.html" %}
+
+{% block laba %}Лабораторная работа 8{% endblock %}
+
+{% block main %}
+<div class="menu">
+    <h1>База знаний</h1>
+    <ul>
+        <li><a href="/lab8/login">Вход</a></li>
+        <li><a href="/lab8/register">Регистрация</a></li>
+        <li><a href="/lab8/list">Список статей</a></li>
+        <li><a href="/lab8/create">Создать статью</a></li>
+        <li><a href="/lab8/users">Спикок пользователей</a></li>
+    </ul>
+    <p>
+        {% if login %}
+            {{ login }}
+        {% else %}
+            Anonymous
+        {% endif %}</p>
+        
+</div>
+
+<div>
+    <a href="/lab8/logout">Выйти</a>
+</div>
+{% endblock %}
