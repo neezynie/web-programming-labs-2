@@ -32,8 +32,8 @@ def db_close(conn, cur):
 
 @lab6.route('/lab6/')
 def main():
-    login = session.get('login')  # Получаем логин пользователя из сессии
-    return render_template('lab6/lab6.html', login=login)  # Передаем логин в шаблон
+    login = session.get('login')  
+    return render_template('lab6/lab6.html', login=login)  
 
 @lab6.route('/lab6/json-rpc-api/', methods=['POST'])
 def api():  
