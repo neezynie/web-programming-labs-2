@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 9{% endblock %}
+
+{% block main %}
+<style>
+    body {
+        background: url('{{ url_for("static", filename="lab9/snow.jpg") }}') no-repeat center center fixed;
+        background-size: cover;
+        color: white;
+        font-family: 'Arial', sans-serif;
+    }
+    .container {
+        background: rgba(0, 0, 0, 0.7);
+        padding: 20px;
+        border-radius: 10px;
+        margin: 50px auto;
+        max-width: 600px;
+    }
+    h1 {
+        color: #ffcc00;
+    }
+    .btn {
+        background-color: #ff6600;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .btn:hover {
+        background-color: #ff9900;
+    }
+</style>
+    <h1>Что именно вам больше нравится?</h1>
+    <form method="POST">
+        {% for value, label in options %}
+            <label>
+                <input type="radio" name="detail" value="{{ value }}" required> {{ label }}
+            </label>
+            <br>
+        {% endfor %}
+        <br>
+        <button type="submit" class="btn">Далее</button>
+    </form>
+{% endblock %}
