@@ -5,6 +5,10 @@ from psycopg2.extras import RealDictCursor
 from werkzeug.security import check_password_hash, generate_password_hash
 import sqlite3
 from os import path
+from db.models import users, articles
+from db import db
+from flask import Flask
+from db.models import db
 
 lab8 = Blueprint('lab8', __name__)
 

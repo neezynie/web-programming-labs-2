@@ -1,6 +1,11 @@
 from flask import Flask, url_for, redirect, render_template_string, request, render_template
 from os.path import realpath
 import os
+from os import path
+from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
+from db.models import users
+from db import db
 from lab1 import lab1
 from lab2 import lab2
 from lab3 import lab3
@@ -14,6 +19,21 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'GLEB')
 app.config['DB_TYPE'] = os.getenv('DB_TYPE', 'postgres')
 app.secret_key = "секретно-секретный секрет"
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'секретно-секретный секрет')
+if app.config['DB_TYPE'] == 'postgres':
+    db_name = 'gleb_kubrakov_orm'
+    db_user = 'gleb_kubrakov_orm'
+    db_password = '123'
+    host_ip = '127.0.0.1'
+    host_port = 5432
+
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{db_user}:{db_password}@{host_ip}:{host_port}/{db_name}'
+
+else:
+    dir_path = path.dirname(path.realpath(__file__))
+    db_path = path.join(dir_path, 'gleb_kubrakov_orm.db')
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
+db.init_app(app)
+
 app.register_blueprint(lab1)
 app.register_blueprint(lab2)
 app.register_blueprint(lab3)
