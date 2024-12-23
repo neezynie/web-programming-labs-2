@@ -22,13 +22,13 @@ def register():
     login_form = request.form.get('login')
     password_form = request.form.get('password')
     if not login_form:
-        return render_template('lab8/register.html', error = 'Не заполнена форма логина')
+        return render_template('lab8/register.html', error = 'Не заполнена форма логина!!')
     if not password_form:
         return render_template('lab8/register.html', error = 'Не заполнена форма пароля!')
 
     login_exists = users.query.filter_by(login = login_form).first()
     if login_exists:
-        return render_template('lab8/register.html', error = 'Такой пользователь уже существует!')
+        return render_template('lab8/register.html', error = 'Такой пользователь уже существует!!!')
     
     password_hash = generate_password_hash(password_form)
     new_user = users(login = login_form, password = password_hash)
@@ -46,9 +46,9 @@ def login():
     login_form = request.form.get('login')
     password_form = request.form.get('password')
     if not login_form:
-        return render_template('lab8/login.html', error = 'Путой логин!')
+        return render_template('lab8/login.html', error = 'Не заполнена форма логина!')
     if not password_form:
-        return render_template('lab8/login.html', error = 'Путой пароль!')
+        return render_template('lab8/login.html', error = 'Не заполнена форма пароля!')
     
     user = users.query.filter_by(login = login_form).first()
 
@@ -60,25 +60,27 @@ def login():
             login_user(user, remember=remember)
             return redirect('/lab8/')
         
-    return render_template('/lab8/login.html', error = 'Неправльно введены данные!')
+    return render_template('/lab8/login.html', error = 'Неправильно введены данные!')
 
 
 @lab8.route('/lab8/articles/', methods=['GET', 'POST'])
 def article_list():
-    if current_user.is_authenticated:
-        search_query = request.form.get('query', '').strip() if request.method == 'POST' else ''
-        my_articles = articles.query.filter_by(login_id=current_user.id).all()
-        public_articles = articles.query.filter(
-            (articles.is_public == True) & (articles.login_id != current_user.id)
+    search_query = request.form.get('query', '').strip() if request.method == 'POST' else ''
+    
+    # Вывод публичных статей для всех пользователей
+    public_articles = articles.query.filter_by(is_public=True).all()
+    
+    # Поиск по статьям
+    results = None
+    if search_query:
+        results = articles.query.filter(
+            (articles.title.ilike(f'%{search_query}%') | articles.article_text.ilike(f'%{search_query}%')) &
+            (articles.is_public == True)
         ).all()
-
-        results = None
-        if search_query:
-            results = articles.query.filter(
-                (articles.title.ilike(f'%{search_query}%') | articles.article_text.ilike(f'%{search_query}%')) &
-                ((articles.is_public == True) | (articles.login_id == current_user.id))
-            ).all()
-
+    
+    # Если пользователь авторизован, добавляем его статьи
+    if current_user.is_authenticated:
+        my_articles = articles.query.filter_by(login_id=current_user.id).all()
         return render_template(
             'lab8/articles.html',
             my_articles=my_articles,
@@ -87,16 +89,6 @@ def article_list():
             results=results
         )
     else:
-        search_query = request.form.get('query', '').strip() if request.method == 'POST' else ''
-        results = None
-        if search_query:
-            results = articles.query.filter(
-                (articles.title.ilike(f'%{search_query}%') | articles.article_text.ilike(f'%{search_query}%')) &
-                ((articles.is_public == True))
-            ).all()
-        public_articles = articles.query.filter(
-            (articles.is_public == True)
-        ).all()
         return render_template(
             'lab8/articles.html',
             public_articles=public_articles,

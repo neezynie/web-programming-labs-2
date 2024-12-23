@@ -1,8 +1,4 @@
-from flask import Flask, url_for, redirect, render_template_string, request, render_template
-from os.path import realpath
-import os
-from os import path
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, url_for, redirect, render_template, abort, request, render_template_string
 from flask_sqlalchemy import SQLAlchemy
 from db.models import users
 from flask_login import LoginManager
@@ -16,6 +12,9 @@ from lab6 import lab6
 from lab7 import lab7
 from lab8 import lab8
 from lab9 import lab9
+
+import os
+from os import path
 app = Flask(__name__)
 
 login_manager = LoginManager()
@@ -34,8 +33,8 @@ def load_users(login_id):
 
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'GLEB')
 app.config['DB_TYPE'] = os.getenv('DB_TYPE', 'postgres')
-app.secret_key = "секретно-секретный секрет"
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'секретно-секретный секрет')
+app.secret_key = "secret_key"
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'secret_secret_key')
 
 if app.config['DB_TYPE'] == 'postgres':
     db_name = 'gleb_kubrakov_orm'
@@ -49,6 +48,7 @@ else:
     dir_path = path.dirname(path.realpath(__file__))
     db_path = path.join(dir_path, 'gleb_kubrakov_orm.db')
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
+
 
 db.init_app(app)
 
@@ -75,7 +75,7 @@ def not_found(err):
         </head>
         <body>
             <h1>Ошибка 404</h1>
-            <p>К сожалению, запрашиваемая вами страница не найдена.</p>
+            <p>К сожалению, запрашиваемая вами страница не найдена!!!.</p>
             <img src="{image_path}" alt="404 Image">
             <p><a href="/">Вернуться на главную</a></p>
         </body>

@@ -1,31 +1,29 @@
-from flask import Blueprint, render_template, request, redirect, session, url_for  # Добавлен url_for
+from flask import Blueprint, render_template, request, redirect, session, url_for  
 
 lab9 = Blueprint('lab9', __name__)
 
-# Главная страница для ввода имени
+
 @lab9.route('/lab9/', methods=['GET', 'POST'])
 def main():
     if all(session.get(key) for key in ['name', 'age', 'gender', 'preference', 'preference']):
-        return redirect(url_for('lab9.congratulation'))  # Используем url_for
+        return redirect(url_for('lab9.congratulation')) 
     if request.method == 'POST':
         session['name'] = request.form.get('name')
-        return redirect(url_for('lab9.age'))  # Используем url_for
+        return redirect(url_for('lab9.age'))  
     return render_template('lab9/index.html')
 
-# Страница для ввода возраста
 @lab9.route('/lab9/age', methods=['GET', 'POST'])
 def age():
     if request.method == 'POST':
         session['age'] = request.form.get('age')
-        return redirect(url_for('lab9.gender'))  # Используем url_for
+        return redirect(url_for('lab9.gender'))  
     return render_template('lab9/age.html')
 
-# Страница для выбора пола
 @lab9.route('/lab9/gender', methods=['GET', 'POST'])
 def gender():
     if request.method == 'POST':
         session['gender'] = request.form.get('gender')
-        return redirect(url_for('lab9.preference'))  # Используем url_for
+        return redirect(url_for('lab9.preference')) 
     return render_template('lab9/gender.html')
 
 # Страница для выбора предпочтений
