@@ -16,6 +16,13 @@ from lab6 import lab6
 from lab7 import lab7
 from lab8 import lab8
 app = Flask(__name__)
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return users.query.get(int(user_id))
 login_manager = LoginManager()
 login_manager.login_view = 'lab8.login'
 login_manager.init_app(app)

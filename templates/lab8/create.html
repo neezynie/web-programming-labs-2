@@ -2,6 +2,7 @@
 <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
 {% extends "base.html" %}
 
+{% block lab %}Лабораторная работа 8{% endblock %}
 
 {% block main %}
     <h1>Создание статьи</h1>
@@ -23,7 +24,7 @@
 
         <div>
             <label>
-                Общедоступная:
+                Публичная:
                 <input type="checkbox" name="is_public" value="1">
             </label>
         </div>
