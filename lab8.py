@@ -46,10 +46,20 @@ def register():
     if request.method == 'GET':
         return render_template('lab8/register.html')
 
-    login = request.form.get('login')
-    password = request.form.get('password')
+    login_form = request.form.get('login')
+    password_form = request.form.get('password')
 
-    if not (login and password):
+    login_exists = users.query.filter_by(login = login_form).first()
+    if login_exists:
+        return render_template('lab8/register.html',
+                               error = 'Такой пользователь уже существует')
+    password_hash = generate_password_hash(password_form)
+    new_user = users(login = login_form, password = password_hash)
+    db.session.add(new_user)
+    db.session.commit()
+    return redirect('/lab8/')
+
+    if not (login and password_form):
         return render_template('lab8/register.html', error='Заполните все поля')
     
     conn, cur = db_connect()
@@ -63,7 +73,7 @@ def register():
         db_close(conn, cur)
         return render_template('lab8/register.html', error='такой логин уже существует')
     
-    password_hash = generate_password_hash(password)
+    password_hash = generate_password_hash(password_form)
 
     if current_app.config['DB_TYPE'] == 'postgres':
         cur.execute("INSERT INTO users (login, password) VALUES (%s, %s);", (login, password_hash))
