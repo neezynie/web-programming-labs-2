@@ -19,7 +19,7 @@ app = Flask(__name__)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
-
+app.secret_key = "секретно-секретный секрет"
 @login_manager.user_loader
 def load_user(user_id):
     return users.query.get(int(user_id))
@@ -31,9 +31,9 @@ login_manager.init_app(app)
 def load_users(login_id):
     return users.query.get(int(login_id))
 
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'GLEB')
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'секретно-секретный секрет')
 app.config['DB_TYPE'] = os.getenv('DB_TYPE', 'postgres')
-app.secret_key = "secret_key"
+
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'secret_secret_key')
 
 if app.config['DB_TYPE'] == 'postgres':
