@@ -7,6 +7,7 @@ from os import path
 
 lab6 = Blueprint('lab6', __name__)
 
+
 def db_connect():
     if current_app.config['DB_TYPE'] == 'postgres':
         conn = psycopg2.connect(
@@ -15,6 +16,7 @@ def db_connect():
             user='gleb_kubrakov_knowledge_base',
             password='123'  
         )
+
         cur = conn.cursor(cursor_factory=RealDictCursor)
     else:
         dir_path = path.dirname(path.realpath(__file__))
