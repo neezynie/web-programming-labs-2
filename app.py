@@ -35,6 +35,7 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'GLEB')
 app.config['DB_TYPE'] = os.getenv('DB_TYPE', 'postgres')
 app.secret_key = "секретно-секретный секрет"
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'секретно-секретный секрет')
+
 if app.config['DB_TYPE'] == 'postgres':
     db_name = 'gleb_kubrakov_orm'
     db_user = 'gleb_kubrakov_orm'
@@ -43,11 +44,11 @@ if app.config['DB_TYPE'] == 'postgres':
     host_port = 5432
 
     app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{db_user}:{db_password}@{host_ip}:{host_port}/{db_name}'
-
 else:
     dir_path = path.dirname(path.realpath(__file__))
     db_path = path.join(dir_path, 'gleb_kubrakov_orm.db')
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
+
 db.init_app(app)
 
 app.register_blueprint(lab1)
