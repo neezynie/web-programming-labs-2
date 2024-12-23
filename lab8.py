@@ -9,6 +9,7 @@ from db.models import users, articles
 from db import db
 from flask import Flask
 from db.models import db
+from flask_login import login_user, login_required, current_user
 
 lab8 = Blueprint('lab8', __name__)
 
@@ -88,10 +89,18 @@ def login():
     if request.method == 'GET':
         return render_template('lab8/login.html')
     
-    login = request.form.get('login')
-    password = request.form.get('password')
+    login_form = request.form.get('login')
+    password_form = request.form.get('password')
 
-    if not (login and password):
+    user = users.query.filter_by(login = login_form).first()
+
+    if user:
+        if check_password_hash(user.password, password_form):
+            login_user(user, remember = False)
+            return redirect('/lab8/')
+    return render_template('/lab8/login.html',
+                           error = 'Ошибка входа: логин и/или пароль неверны')
+    if not (login and password_form):
         return render_template('lab8/login.html', error='Заполните все поля')
     
     conn, cur = db_connect()
@@ -103,7 +112,7 @@ def login():
 
     user = cur.fetchone()
 
-    if not user or not check_password_hash(user['password'], password):
+    if not user or not check_password_hash(user['password'], password_form):
         db_close(conn, cur)
         return render_template('lab8/login.html', error="Пользователь и/или пароль введены неверно!")
     
@@ -209,6 +218,49 @@ def list():
     db_close(conn, cur)
 
     return render_template('/lab8/articles.html', articles=articles, filter_type='all', sqllite=sqllite, is_admin=is_admin)
+
+
+@lab8.route('/lab8/articles/', methods=['GET', 'POST'])
+def article_list():
+    if current_user.is_authenticated:
+        search_query = request.form.get('query', '').strip() if request.method == 'POST' else ''
+        my_articles = articles.query.filter_by(login_id=current_user.id).all()
+        public_articles = articles.query.filter(
+            (articles.is_public == True) & (articles.login_id != current_user.id)
+        ).all()
+
+        results = None
+        if search_query:
+            results = articles.query.filter(
+                (articles.title.ilike(f'%{search_query}%') | articles.article_text.ilike(f'%{search_query}%')) &
+                ((articles.is_public == True) | (articles.login_id == current_user.id))
+            ).all()
+
+        return render_template(
+            'lab8/articles.html',
+            my_articles=my_articles,
+            public_articles=public_articles,
+            search_query=search_query,
+            results=results
+        )
+    else:
+        search_query = request.form.get('query', '').strip() if request.method == 'POST' else ''
+        results = None
+        if search_query:
+            results = articles.query.filter(
+                (articles.title.ilike(f'%{search_query}%') | articles.article_text.ilike(f'%{search_query}%')) &
+                ((articles.is_public == True))
+            ).all()
+        public_articles = articles.query.filter(
+            (articles.is_public == True)
+        ).all()
+        return render_template(
+            'lab8/articles.html',
+            public_articles=public_articles,
+            search_query=search_query,
+            results=results
+        )
+
 
 @lab8.route('/lab8/logout')
 def logout():
