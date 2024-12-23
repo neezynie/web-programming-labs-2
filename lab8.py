@@ -263,11 +263,10 @@ def article_list():
 
 
 @lab8.route('/lab8/logout')
+@login_required
 def logout():
-    session.pop('login_id', None)
-    session.pop('login', None)
-    return redirect('/lab5/login')
-
+    logout_user()
+    return redirect('/lab8/')
 
 @lab8.route('/lab8/edit/<int:article_id>', methods=['GET', 'POST'])
 def edit_article(article_id):
