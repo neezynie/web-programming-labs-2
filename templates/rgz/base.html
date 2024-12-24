@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Предложение услуг{% endblock %}</title>
+    <style>
+        /* Общие стили */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1a202c;
+            color: #fff;
+            overflow: hidden; /* Для снегопада */
+        }
+
+        /* Стили для навигации */
+        nav {
+            background-color: #2d3748;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Стили для контента */
+        .content {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #2d3748;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        /* Стили для таблиц */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #4a5568;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4a5568;
+        }
+
+        /* Стили для форм */
+        form {
+            margin-top: 20px;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        form input, form select, form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #4a5568;
+            border-radius: 5px;
+            background-color: #1a202c;
+            color: #fff;
+        }
+
+        form button {
+            padding: 10px 20px;
+            background-color: #48bb78;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background-color: #38a169;
+        }
+
+        /* Стили для сообщений об ошибках */
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+
+        /* Новогоднее оформление */
+        .snowflake {
+            position: absolute;
+            color: #fff;
+            font-size: 12px;
+            animation: snowfall linear infinite;
+        }
+
+        @keyframes snowfall {
+            0% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+
+        /* Новогодние иконки */
+        .christmas-icon {
+            position: absolute;
+            color: #ff6b6b;
+            font-size: 24px;
+            animation: rotate linear infinite;
+        }
+        .scrollable-table {
+            width: 100%;
+            max-height: 400px; /* Максимальная высота таблицы */
+            overflow-y: auto; /* Добавляем вертикальную прокрутку */
+            border: 1px solid #4a5568;
+            border-radius: 5px;
+        }
+        
+        .scrollable-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .scrollable-table th, .scrollable-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #4a5568;
+        }
+        
+        .scrollable-table th {
+            background-color: #4a5568;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Новогодние иконки -->
+    <div class="christmas-icon" style="top: 10%; left: 10%;">&#127876;</div>
+    <div class="christmas-icon" style="top: 20%; left: 80%;">&#127878;</div>
+    <div class="christmas-icon" style="top: 50%; left: 30%;">&#127877;</div>
+    <div class="christmas-icon" style="top: 70%; left: 60%;">&#127879;</div>
+
+    <!-- Снегопад -->
+    <div id="snowfall"></div>
+    <script>
+        const snowfall = document.getElementById('snowfall');
+        for (let i = 0; i < 100; i++) {
+            const snowflake = document.createElement('div');
+            snowflake.className = 'snowflake';
+            snowflake.style.left = `${Math.random() * 100}vw`;
+            snowflake.style.animationDuration = `${Math.random() * 3 + 2}s`;
+            snowflake.textContent = '❄';
+            snowfall.appendChild(snowflake);
+        }
+    </script>
+
+    <nav>
+        <a href="/rgz/">Главная</a>
+        <a href="/rgz/register">Регистрация</a>
+        <a href="/rgz/login">Войти</a>
+        <a href="/rgz/view_profiles">Просмотр профилей</a>
+        <a href="/rgz/search">Поиск</a>
+        {% if session.get('login') == 'admin' %}
+            <a href="/rgz/admin">Административная панель</a>
+            <a href="/rgz/logout">Выйти</a>
+        {% elif session.get('login') %}
+            <a href="/rgz/my_profile">Мой профиль</a>
+            <a href="/rgz/logout">Выйти</a>
+        {% else %}
+            <span>Анонимус</span>
+        {% endif %}
+    </nav>
+
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

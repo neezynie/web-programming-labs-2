@@ -1,0 +1,39 @@
+{% extends 'rgz/base.html' %}
+
+{% block title %}Профили пользователей{% endblock %}
+
+{% block content %}
+    <h1>Профили пользователей</h1>
+    <div class="scrollable-table">
+        <table>
+            <tr>
+                <th>Логин</th>
+                <th>Имя</th>
+                <th>Тип услуги</th>
+                <th>Стаж</th>
+                <th>Цена</th>
+                <th>О себе</th>
+            </tr>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.login }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.service_type }}</td>
+                <td>{{ user.experience }} лет</td>
+                <td>{{ user.price }} руб./час</td>
+                <td>{{ user.about }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- Пагинация -->
+    <p>
+        {% if page > 1 %}
+            <a href="/rgz/view_profiles?page={{ page - 1 }}">Предыдущая страница</a>
+        {% endif %}
+        {% if users|length == 5 %}
+            <a href="/rgz/view_profiles?page={{ page + 1 }}">Следующая страница</a>
+        {% endif %}
+    </p>
+{% endblock %}

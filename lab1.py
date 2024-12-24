@@ -198,4 +198,10 @@ def delete():
             ''', 400
     else:
         return redirect(url_for('resource'))
-    
+
+from werkzeug.security import generate_password_hash
+
+# Генерация хеша пароля
+password = "admin"
+hashed_password = generate_password_hash(password)
+print(hashed_password)

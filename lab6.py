@@ -4,10 +4,7 @@ from psycopg2.extras import RealDictCursor
 from werkzeug.security import check_password_hash, generate_password_hash
 import sqlite3
 from os import path
-import logging
-logging.basicConfig(level=logging.INFO, filename='trace.log', filemode='a')
 lab6 = Blueprint('lab6', __name__)
-
 
 def db_connect():
     if current_app.config['DB_TYPE'] == 'postgres':
@@ -17,12 +14,10 @@ def db_connect():
             user='gleb_kubrakov_knowledge_base',
             password='123'  
         )
-
         cur = conn.cursor(cursor_factory=RealDictCursor)
     else:
         dir_path = path.dirname(path.realpath(__file__))
         db_path = path.join(dir_path, 'database.db')
-        logging.info('db_path='+db_path)
         conn = sqlite3.connect(db_path)
         conn.row_factory = sqlite3.Row
         cur = conn.cursor()
@@ -45,8 +40,6 @@ def api():
     id = data['id']
     if data['method'] == 'info':
         conn, cur = db_connect()
-        cur.execute("SELECT name FROM sqlite_master WHERE type='table';")
-        logging.info('tables: '+cursor.fetchall())
         cur.execute("SELECT * FROM offices;")
         offices = cur.fetchall()
         db_close(conn, cur)

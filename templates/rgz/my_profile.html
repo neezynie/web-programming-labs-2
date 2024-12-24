@@ -1,0 +1,20 @@
+{% extends 'rgz/base.html' %}
+
+{% block title %}Мой профиль{% endblock %}
+
+{% block content %}
+    <h1>Мой профиль</h1>
+    <p>Логин: {{ login }}</p>
+    {% if user %}
+        <p>Имя: {{ user.name }}</p>
+        <p>Тип услуги: {{ user.service_type }}</p>
+        <p>Стаж: {{ user.experience }} лет</p>
+        <p>Цена: {{ user.price }} руб./час</p>
+        <p>О себе: {{ user.about }}</p>
+        <p>Скрыт: {% if user.is_hidden %}Да{% else %}Нет{% endif %}</p>
+        <a href="/rgz/edit_profile">Редактировать профиль</a>
+    {% else %}
+        <p>Вы не авторизованы. Пожалуйста, <a href="/rgz/login">войдите</a> или <a href="/rgz/register">зарегистрируйтесь</a>.</p>
+    {% endif %}
+    <p><a href="/rgz/">На главную</a></p>
+{% endblock %}

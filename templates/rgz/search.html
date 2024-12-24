@@ -1,0 +1,35 @@
+{% extends 'rgz/base.html' %}
+
+{% block title %}Поиск услуг{% endblock %}
+
+{% block content %}
+    <h1>Поиск услуг</h1>
+    <form method="POST">
+        <label for="name">Имя:</label>
+        <input type="text" id="name" name="name"><br><br>
+
+        <label for="service_type">Тип услуги:</label>
+        <select id="service_type" name="service_type">
+            <option value="">Любой</option>
+            <option value="репетитор">Репетитор</option>
+            <option value="бухгалтер">Бухгалтер</option>
+            <option value="программист">Программист</option>
+            <!-- Добавьте другие типы услуг -->
+        </select><br><br>
+
+        <label for="experience_min">Стаж (от):</label>
+        <input type="number" id="experience_min" name="experience_min"><br><br>
+
+        <label for="experience_max">Стаж (до):</label>
+        <input type="number" id="experience_max" name="experience_max"><br><br>
+
+        <label for="price_min">Цена (от):</label>
+        <input type="number" id="price_min" name="price_min"><br><br>
+
+        <label for="price_max">Цена (до):</label>
+        <input type="number" id="price_max" name="price_max"><br><br>
+
+        <button type="submit">Поиск</button>
+    </form>
+    <p><a href="/rgz/">На главную</a></p>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'rgz/base.html' %}
+
+{% block title %}Административная панель{% endblock %}
+
+{% block content %}
+    <h1>Административная панель</h1>
+    <div class="scrollable-table">
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Логин</th>
+                <th>Имя</th>
+                <th>Тип услуги</th>
+                <th>Стаж</th>
+                <th>Цена</th>
+                <th>О себе</th>
+                <th>Действия</th>
+            </tr>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.login }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.service_type }}</td>
+                <td>{{ user.experience }} лет</td>
+                <td>{{ user.price }} руб./час</td>
+                <td>{{ user.about }}</td>
+                <td>
+                    <form method="POST" style="display:inline;">
+                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                        <button type="submit" name="action" value="edit">Редактировать</button>
+                        <button type="submit" name="action" value="delete">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <p><a href="/rgz/">На главную</a></p>
+{% endblock %}

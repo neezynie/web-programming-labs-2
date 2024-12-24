@@ -12,7 +12,7 @@ from lab6 import lab6
 from lab7 import lab7
 from lab8 import lab8
 from lab9 import lab9
-
+from rgz import rgz
 import os
 from os import path
 app = Flask(__name__)
@@ -61,6 +61,7 @@ app.register_blueprint(lab6)
 app.register_blueprint(lab7)
 app.register_blueprint(lab8)
 app.register_blueprint(lab9)
+app.register_blueprint(rgz)
 @app.errorhandler(404)
 def not_found(err):
     image_path = url_for('static', filename='404.jpg')
@@ -106,6 +107,7 @@ def index():
                 <li><a href="/lab7/">7 лабораторная</a></li>
                 <li><a href="/lab8/">8 лабораторная</a></li>
                 <li><a href="/lab9/">9 лабораторная</a></li>
+                <li><a href="/rgz/">rgz</a></li>
             </ul>
             <footer>
                 <p>ФИО: Кубраков Глеб Евгеньевич</p>
