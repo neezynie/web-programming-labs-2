@@ -291,7 +291,7 @@ def edit_profile():
         experience = request.form.get('experience')
         price = request.form.get('price')
         about = request.form.get('about')
-        is_hidden = request.form.get('is_hidden') == '1'
+        is_hidden = request.form.get('is_hidden') == '1'  # Получаем значение чекбокса
 
         if not (name and service_type and experience and price):
             db_close(conn, cur)
@@ -312,12 +312,10 @@ def edit_profile():
 
 @rgz.route('/rgz/view_profiles', methods=['GET'])
 def view_profiles():
-    # Получаем параметр page из запроса, по умолчанию 1
     page = int(request.args.get('page', 1))
 
     conn, cur = db_connect()
 
-    # Запрос с пагинацией (5 пользователей на странице)
     offset = (page - 1) * 5
     if current_app.config['DB_TYPE'] == 'postgres':
         cur.execute("SELECT * FROM users WHERE is_hidden=FALSE ORDER BY id LIMIT 5 OFFSET %s;", (offset,))

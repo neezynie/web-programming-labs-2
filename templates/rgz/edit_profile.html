@@ -1,9 +1,9 @@
 {% extends 'rgz/base.html' %}
 
-{% block title %}Редактирование профиля{% endblock %}
+{% block title %}Редактировать профиль{% endblock %}
 
 {% block content %}
-    <h1>Редактирование профиля</h1>
+    <h1>Редактировать профиль</h1>
     {% if error %}
         <p style="color: red;">{{ error }}</p>
     {% endif %}
@@ -24,9 +24,9 @@
         <textarea id="about" name="about" rows="4" cols="50">{{ user.about }}</textarea><br><br>
 
         <label for="is_hidden">Скрыть профиль:</label>
-        <input type="checkbox" id="is_hidden" name="is_hidden" {% if user.is_hidden %}checked{% endif %}><br><br>
+        <input type="checkbox" id="is_hidden" name="is_hidden" value="1" {% if user.is_hidden %}checked{% endif %}><br><br>
 
-        <button type="submit">Сохранить</button>
+        <button type="submit">Сохранить изменения</button>
     </form>
-    <p><a href="/rgz/my_profile">Назад</a></p>
+    <p><a href="/rgz/my_profile">Назад к профилю</a></p>
 {% endblock %}

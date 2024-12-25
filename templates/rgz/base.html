@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Предложение услуг{% endblock %}</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon-32x32.png') }}" type="image/png">
+
     <style>
         /* Общие стили */
         body {
@@ -154,6 +156,43 @@
             z-index: 1;
         }
 
+        .scrollable-form {
+            max-height: 400px; /* Максимальная высота контейнера */
+            overflow-y: auto; /* Включаем вертикальную прокрутку */
+            border: 1px solid #ccc; /* Добавляем границу для контейнера */
+            padding: 10px; /* Отступы внутри контейнера */
+        }
+        
+        /* Стили для формы */
+        .scrollable-form form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .scrollable-form label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .scrollable-form input,
+        .scrollable-form textarea,
+        .scrollable-form button {
+            margin-bottom: 15px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        .scrollable-form button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .scrollable-form button:hover {
+            background-color: #45a049;
+        }
+
         @keyframes rotate {
             0% {
                 transform: rotate(0deg);
@@ -165,11 +204,6 @@
     </style>
 </head>
 <body>
-    <!-- Новогодние иконки -->
-    <div class="christmas-icon" style="top: 10%; left: 10%;">&#127876;</div>
-    <div class="christmas-icon" style="top: 20%; left: 80%;">&#127878;</div>
-    <div class="christmas-icon" style="top: 50%; left: 30%;">&#127877;</div>
-    <div class="christmas-icon" style="top: 70%; left: 60%;">&#127879;</div>
 
     <!-- Снегопад -->
     <div id="snowfall"></div>
