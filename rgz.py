@@ -141,7 +141,7 @@ def search():
     if request.method == 'GET':
         return render_template('rgz/search.html')
 
-    # Получаем параметры поиска из формы
+    # Получаем параметры поиска из формы[f[f[f[f[]]]]]
     name = request.form.get('name')
     service_type = request.form.get('service_type')
     experience_min = request.form.get('experience_min')
